@@ -2,18 +2,23 @@ import './CredentialScreen.css';
 import React, { useState } from 'react';
 
 function CredentialScreen() {
+  const [hasCredentials, setCredentials] = useState(false);
   const [keys, setKeys] = useState({
     accessKey: '',
     secretKey: '',
   });
 
-  function handleClick(event) {
+  const showCredentials = () => {
+    setCredentials(prev => !prev);
+  };
+
+  const handleClick = event => {
+    showCredentials();
+
     // TODO: Make request to backend to store credentials in DB.
+  };
 
-    event.preventDefault();
-  }
-
-  function handleChange(event) {
+  const handleChange = event => {
     const { value, name } = event.target;
 
     setKeys(prevValue => {
@@ -29,35 +34,50 @@ function CredentialScreen() {
         };
       }
     });
-  }
+  };
+
+  const inputForm = () => {
+    return (
+      <div>
+        <form onSubmit={handleClick}>
+          <input
+            className='input'
+            name='accessKey'
+            placeholder='Access Key'
+            onChange={handleChange}
+            type='text'
+            value={keys.accessKey}
+          />
+
+          <br />
+
+          <input
+            className='input'
+            name='secretKey'
+            placeholder='Secret Key'
+            onChange={handleChange}
+            type='text'
+            value={keys.secretKey}
+          />
+        </form>
+
+        <button onClick={handleClick}>Submit credentials</button>
+      </div>
+    );
+  };
+
+  const credentials = () => {
+    return (
+      <div>
+        <h3>Access Key ID: {keys.accessKey}</h3>
+        <h3>Secret key ID: {keys.secretKey}</h3>
+      </div>
+    );
+  };
 
   return (
     <div className='credentials-container'>
-      <form onSubmit={handleClick}>
-        <input
-          className='input'
-          name='accessKey'
-          placeholder='Access Key'
-          onChange={handleChange}
-          type='text'
-          value={keys.accessKey}
-        />
-
-        <br />
-
-        <input
-          className='input'
-          name='secretKey'
-          placeholder='Secret Key'
-          onChange={handleChange}
-          type='text'
-          value={keys.secretKey}
-        />
-
-        <br />
-
-        <button>Submit credentials</button>
-      </form>
+      {hasCredentials ? credentials() : inputForm()}
     </div>
   );
 }
