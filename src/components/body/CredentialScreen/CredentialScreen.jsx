@@ -1,21 +1,49 @@
 import './CredentialScreen.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function CredentialScreen() {
   const [hasCredentials, setCredentials] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3010/session')
+      .then(() => {
+        setCredentials(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setCredentials(false);
+      });
+  });
+
   const [keys, setKeys] = useState({
     accessKey: '',
     secretKey: '',
+    sessionToken: '',
   });
 
-  const showCredentials = () => {
-    setCredentials(prev => !prev);
-  };
-
   const handleClick = event => {
-    showCredentials();
+    event.preventDefault();
 
-    // TODO: Make request to backend to store credentials in DB.
+    axios
+      .post(
+        'http://localhost:3010/credentials',
+        {
+          accessKey: keys.accessKey,
+          secretKey: keys.secretKey,
+          sessionToken: keys.sessionToken,
+        },
+        {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        },
+      )
+      .then(() => {
+        setCredentials(prev => !prev);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleChange = event => {
@@ -26,17 +54,25 @@ function CredentialScreen() {
         return {
           accessKey: value,
           secretKey: prevValue.secretKey,
+          sessionToken: prevValue.sessionToken,
         };
       } else if (name === 'secretKey') {
         return {
           accessKey: prevValue.accessKey,
           secretKey: value,
+          sessionToken: prevValue.sessionToken,
+        };
+      } else if (name === 'sessionToken') {
+        return {
+          accessKey: prevValue.accessKey,
+          secretKey: prevValue.secretKey,
+          sessionToken: value,
         };
       }
     });
   };
 
-  const inputForm = () => {
+  const showInputForm = () => {
     return (
       <div>
         <form onSubmit={handleClick}>
@@ -59,25 +95,53 @@ function CredentialScreen() {
             type='text'
             value={keys.secretKey}
           />
-        </form>
 
-        <button onClick={handleClick}>Submit credentials</button>
+          <br />
+
+          <input
+            className='input'
+            name='sessionToken'
+            placeholder='Session Token'
+            onChange={handleChange}
+            type='text'
+            value={keys.sessionToken}
+          />
+
+          <br />
+
+          <button type='submit'>Submit credentials</button>
+        </form>
       </div>
     );
   };
 
-  const credentials = () => {
+  const Vpcs = () => {
+    const [vpcs, setVpcs] = useState([]);
+
+    useEffect(() => {
+      axios.get('http://localhost:3010/network/vpc').then(res => {
+        console.log(res);
+        setVpcs(res.data.body);
+      });
+    }, []);
+
     return (
       <div>
-        <h3>Access Key ID: {keys.accessKey}</h3>
-        <h3>Secret key ID: {keys.secretKey}</h3>
+        Vpcs
+        {vpcs.map((item, i) => {
+          return (
+            <div key={i}>
+              <p id='vpc'>{item?.VpcId}</p>
+            </div>
+          );
+        })}
       </div>
     );
   };
 
   return (
     <div className='credentials-container'>
-      {hasCredentials ? credentials() : inputForm()}
+      {hasCredentials ? <Vpcs /> : showInputForm()}
     </div>
   );
 }
