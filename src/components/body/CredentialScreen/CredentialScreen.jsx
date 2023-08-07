@@ -1,33 +1,18 @@
 import './CredentialScreen.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-function CredentialScreen() {
-  const [hasCredentials, setCredentials] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:3010/session')
-      .then(() => {
-        setCredentials(true);
-      })
-      .catch(err => {
-        console.log(err);
-        setCredentials(false);
-      });
-  });
-
+function CredentialScreen({ setAuthorization }) {
   const [keys, setKeys] = useState({
     accessKey: '',
     secretKey: '',
     sessionToken: '',
   });
 
-  const handleClick = event => {
+  const handleClick = async event => {
     event.preventDefault();
-
-    axios
-      .post(
+    try {
+      await axios.post(
         'http://localhost:3010/credentials',
         {
           accessKey: keys.accessKey,
@@ -37,13 +22,13 @@ function CredentialScreen() {
         {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         },
-      )
-      .then(() => {
-        setCredentials(prev => !prev);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      );
+
+      // Authorization is now performed and user will see the application.
+      setAuthorization(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleChange = event => {
@@ -72,76 +57,44 @@ function CredentialScreen() {
     });
   };
 
-  const showInputForm = () => {
-    return (
-      <div>
-        <form onSubmit={handleClick}>
-          <input
-            className='input'
-            name='accessKey'
-            placeholder='Access Key'
-            onChange={handleChange}
-            type='text'
-            value={keys.accessKey}
-          />
-
-          <br />
-
-          <input
-            className='input'
-            name='secretKey'
-            placeholder='Secret Key'
-            onChange={handleChange}
-            type='text'
-            value={keys.secretKey}
-          />
-
-          <br />
-
-          <input
-            className='input'
-            name='sessionToken'
-            placeholder='Session Token'
-            onChange={handleChange}
-            type='text'
-            value={keys.sessionToken}
-          />
-
-          <br />
-
-          <button type='submit'>Submit credentials</button>
-        </form>
-      </div>
-    );
-  };
-
-  const Vpcs = () => {
-    const [vpcs, setVpcs] = useState([]);
-
-    useEffect(() => {
-      axios.get('http://localhost:3010/network/vpc').then(res => {
-        console.log(res);
-        setVpcs(res.data.body);
-      });
-    }, []);
-
-    return (
-      <div>
-        Vpcs
-        {vpcs.map((item, i) => {
-          return (
-            <div key={i}>
-              <p id='vpc'>{item?.VpcId}</p>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
   return (
-    <div className='credentials-container'>
-      {hasCredentials ? <Vpcs /> : showInputForm()}
+    <div>
+      <form onSubmit={handleClick}>
+        <input
+          className='input'
+          name='accessKey'
+          placeholder='Access Key'
+          onChange={handleChange}
+          type='text'
+          value={keys.accessKey}
+        />
+
+        <br />
+
+        <input
+          className='input'
+          name='secretKey'
+          placeholder='Secret Key'
+          onChange={handleChange}
+          type='text'
+          value={keys.secretKey}
+        />
+
+        <br />
+
+        <input
+          className='input'
+          name='sessionToken'
+          placeholder='Session Token'
+          onChange={handleChange}
+          type='text'
+          value={keys.sessionToken}
+        />
+
+        <br />
+
+        <button type='submit'>Submit credentials</button>
+      </form>
     </div>
   );
 }

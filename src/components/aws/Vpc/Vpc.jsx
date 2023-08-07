@@ -1,11 +1,7 @@
 import React from 'react';
 
 function Vpc(props) {
-  return (
-    <div>
-      <p>{props.VpcId}</p>
-    </div>
-  );
+  return <div>{props.VpcId}</div>;
 }
 
 export default Vpc;
