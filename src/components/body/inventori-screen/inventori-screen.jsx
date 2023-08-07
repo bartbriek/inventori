@@ -5,7 +5,7 @@ import Vpc from '../../aws/network/vpc/vpc';
 function InventoriScreen() {
   const [vpcs, setVpcs] = useState([]);
 
-  useEffect(() => {
+  useEffect(getEc2Instances => {
     axios.get('http://localhost:3010/network/vpc').then(res => {
       setVpcs(res.data.body);
     });

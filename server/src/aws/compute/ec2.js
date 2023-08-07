@@ -5,10 +5,17 @@ import successMessages, { createGetResponse } from '../../success.js';
 async function handleEc2Request(axiosResponse) {
   try {
     const ec2 = new EC2({ region: 'eu-west-1' });
-    const ec2Instances = await ec2.describeInstances({}).promise();
-    console.log(ec2Instances);
+    const response = await ec2.describeInstances({}).promise();
+    const instances = [];
+
+    response.Reservations.forEach(reservation => {
+      reservation.Instances.forEach(instance => {
+        instances.push(instance);
+      });
+    });
+
     axiosResponse.status(successMessages.GetSuccess.statusCode);
-    axiosResponse.send(createGetResponse(ec2Instances.Reservations));
+    axiosResponse.send(createGetResponse(instances));
   } catch (err) {
     // TODO: Fix general error handling
     console.log(createAuthErrorResponse());
