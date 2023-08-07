@@ -1,5 +1,5 @@
 import React from 'react';
-import './Vpc.css';
+import './vpc.css';
 
 function Vpc(props) {
   return <div id='vpc'>{props.vpc.VpcId}</div>;

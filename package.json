@@ -18,6 +18,11 @@
       "fullySpecified": false
     }
   },
+  "nodemon": {
+    "include": [
+      "server/*"
+    ]
+  },
   "dependencies": {
     "axios": "1.4.0",
     "body-parser": "1.20.2",

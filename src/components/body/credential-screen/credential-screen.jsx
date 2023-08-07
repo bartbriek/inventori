@@ -1,4 +1,4 @@
-import './CredentialScreen.css';
+import './credential-screen.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Vpc from '../../aws/Vpc/Vpc';
+import Vpc from '../../aws/network/vpc/vpc';
 
 function InventoriScreen() {
   const [vpcs, setVpcs] = useState([]);

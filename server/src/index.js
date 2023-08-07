@@ -5,6 +5,7 @@ import AWS from 'aws-sdk';
 import validateSession from './session.js';
 import errorMessages, { createAuthErrorResponse } from './errors.js';
 import successMessages, { createGetResponse } from './success.js';
+import handleEc2Request from './aws/compute/ec2.js';
 
 // CONSTANTS
 const app = express();
@@ -69,9 +70,8 @@ app.post('/credentials', (req, res) => {
 
 // NETWORK ENDPOINTS
 app.get('/network/vpc', async (req, res) => {
-  const ec2 = new AWS.EC2({ region: 'eu-west-1' });
-
   try {
+    const ec2 = new AWS.EC2({ region: 'eu-west-1' });
     const vpcData = await ec2.describeVpcs({}).promise();
     res.status(successMessages.GetSuccess.statusCode);
     res.send(createGetResponse(vpcData.Vpcs));
@@ -82,6 +82,10 @@ app.get('/network/vpc', async (req, res) => {
       res.send(errorMessages.AWSAuthError);
     }
   }
+});
+
+app.get('/compute/ec2', async (req, res) => {
+  handleEc2Request(res);
 });
 
 // MAIN

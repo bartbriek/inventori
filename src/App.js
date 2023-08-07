@@ -1,9 +1,9 @@
 import './App.css';
-import CredentialScreen from './components/body/CredentialScreen/CredentialScreen';
-import Footer from './components/footer/Footer';
+import CredentialScreen from './components/body/credential-screen/credential-screen';
+import Footer from './components/footer/footer';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import InventoriScreen from './components/body/InventoriScreen/InventoriScreen';
+import InventoriScreen from './components/body/inventori-screen/inventori-screen';
 
 function App() {
   const [isAuthorized, setAuthorization] = useState(false);
