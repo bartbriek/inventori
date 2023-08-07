@@ -15,9 +15,9 @@ function CredentialScreen({ setAuthorization }) {
       await axios.post(
         'http://localhost:3010/credentials',
         {
-          accessKey: keys.accessKey,
-          secretKey: keys.secretKey,
-          sessionToken: keys.sessionToken,
+          access_key: keys.accessKey,
+          secret_key: keys.secretKey,
+          session_token: keys.sessionToken,
         },
         {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

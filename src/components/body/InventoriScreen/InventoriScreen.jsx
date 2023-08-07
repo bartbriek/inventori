@@ -7,6 +7,7 @@ function InventoriScreen() {
 
   useEffect(() => {
     axios.get('http://localhost:3010/network/vpc').then(res => {
+      console.log(res);
       setVpcs(res.data.body);
     });
   }, []);
@@ -14,7 +15,7 @@ function InventoriScreen() {
   return (
     <div>
       {vpcs.map(vpc => {
-        return <Vpc vpcId={vpc} />;
+        return <Vpc key={vpc.VpcId} vpc={vpc} />;
       })}
     </div>
   );
