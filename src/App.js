@@ -16,7 +16,7 @@ function App() {
       })
       .catch(err => {
         console.log(err);
-        setAuthorization(false);
+        setAuthorization(false); // Set to true for bypassing credential screen;
       });
   });
 

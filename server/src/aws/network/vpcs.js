@@ -1,19 +1,20 @@
-import EC2 from 'aws-sdk/clients/ec2';
-import errorMessages from '../../errors';
-import successMessages from '../../success';
+import EC2 from 'aws-sdk/clients/ec2.js';
+import errorMessages, { createAuthErrorResponse } from '../../errors.js';
+import successMessages, { createGetResponse } from '../../success.js';
 
-const listVpcs = async () => {
-  const ec2 = new EC2({ region: 'eu-west-1' });
-  const vpcData = await ec2.describeVpcs({}).promise();
-
-  let result;
-  if (vpcData.Vpcs === undefined) {
-    result = errorMessages.AWSAuthError;
+async function listVpcs(axiosResponse, region) {
+  try {
+    const ec2 = new EC2({ region: region });
+    const vpcData = await ec2.describeVpcs({}).promise();
+    axiosResponse.status(successMessages.GetSuccess.statusCode);
+    axiosResponse.send(createGetResponse(vpcData.Vpcs));
+  } catch (err) {
+    // TODO: Do proper error handling for CredentialsError. Request keeps hanging.
+    if (err.code === 'CredentialsError') {
+      axiosResponse.status(errorMessages.AWSAuthError.statusCode);
+      axiosResponse.send(createAuthErrorResponse());
+    }
   }
-
-  result = successMessages.GetSuccess;
-  result.body = vpcData.Vpcs;
-  return result;
-};
+}
 
 export default listVpcs;

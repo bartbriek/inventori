@@ -2,10 +2,12 @@ import EC2 from 'aws-sdk/clients/ec2.js';
 import { createAuthErrorResponse } from '../../errors.js';
 import successMessages, { createGetResponse } from '../../success.js';
 
-async function handleEc2Request(axiosResponse) {
+async function listEc2Instances(axiosResponse, region) {
   try {
-    const ec2 = new EC2({ region: 'eu-west-1' });
+    const ec2 = new EC2({ region: region });
+    console.log(region);
     const response = await ec2.describeInstances({}).promise();
+    console.log(response);
     const instances = [];
 
     response.Reservations.forEach(reservation => {
@@ -22,4 +24,4 @@ async function handleEc2Request(axiosResponse) {
   }
 }
 
-export default handleEc2Request;
+export default listEc2Instances;

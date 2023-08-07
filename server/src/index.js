@@ -5,7 +5,9 @@ import AWS from 'aws-sdk';
 import validateSession from './session.js';
 import errorMessages, { createAuthErrorResponse } from './errors.js';
 import successMessages, { createGetResponse } from './success.js';
-import handleEc2Request from './aws/compute/ec2.js';
+import listEc2Instances from './aws/compute/ec2.js';
+import listVpcs from './aws/network/vpcs.js';
+import getAccountId from './aws/governance/sts.js';
 
 // CONSTANTS
 const app = express();
@@ -20,6 +22,8 @@ let credentials = new AWS.Credentials({
 
 // AWS SDK
 AWS.config.logger = console;
+let aws_region = 'eu-west-1';
+const REGIONS = ['us-east-1', 'eu-west-1', 'eu-central-1'];
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -68,24 +72,30 @@ app.post('/credentials', (req, res) => {
   res.send(successMessages.CreatedSuccess);
 });
 
-// NETWORK ENDPOINTS
-app.get('/network/vpc', async (req, res) => {
-  try {
-    const ec2 = new AWS.EC2({ region: 'eu-west-1' });
-    const vpcData = await ec2.describeVpcs({}).promise();
-    res.status(successMessages.GetSuccess.statusCode);
-    res.send(createGetResponse(vpcData.Vpcs));
-  } catch (err) {
-    // TODO: Do proper error handling for CredentialsError. Request keeps hanging.
-    if (err.code === 'CredentialsError') {
-      res.status(errorMessages.AWSAuthError.statusCode);
-      res.send(errorMessages.AWSAuthError);
-    }
+// GOVERNANCE ENDPOINTS
+app.get('/accounts', (req, res) => {
+  getAccountId(res);
+});
+
+app.put('/regions/:regionId', (req, res) => {
+  const regionId = req.params.regionId;
+  if (REGIONS.includes(regionId)) {
+    aws_region = regionId;
+    res.status(successMessages.PutSuccess.statusCode);
+    res.send(successMessages.PutSuccess);
+  } else {
+    res.status(errorMessages.PutFailure.statusCode);
+    res.send(errorMessages.PutFailure);
   }
 });
 
+// NETWORK ENDPOINTS
+app.get('/network/vpc', (req, res) => {
+  listVpcs(res, aws_region);
+});
+
 app.get('/compute/ec2', async (req, res) => {
-  handleEc2Request(res);
+  listEc2Instances(res, aws_region);
 });
 
 // MAIN

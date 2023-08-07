@@ -1,5 +1,10 @@
+const validRegions = {
+  'Supported regions': ['us-east-1', 'eu-west-1', 'eu-central-1'],
+};
+
 const errorMessages = {
   AWSAuthError: { statusCode: 401, status: 'FAILURE', body: 'UNAUTHORIZED' },
+  PutFailure: { statusCode: 403, status: 'FAILURE', body: validRegions },
 };
 
 const createAuthErrorResponse = body => {
