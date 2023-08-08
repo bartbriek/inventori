@@ -1,6 +1,6 @@
 import EC2 from 'aws-sdk/clients/ec2.js';
-import { createAuthErrorResponse } from '../../errors.js';
-import successMessages, { createGetResponse } from '../../success.js';
+import { createAuthErrorResponse } from './common/errors.js';
+import { createGetResponse, successMessages } from './common/success.js';
 
 async function listEc2Instances(axiosResponse, region) {
   try {
@@ -24,4 +24,4 @@ async function listEc2Instances(axiosResponse, region) {
   }
 }
 
-export default listEc2Instances;
+export { listEc2Instances };

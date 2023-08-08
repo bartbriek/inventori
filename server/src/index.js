@@ -2,14 +2,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import AWS from 'aws-sdk';
-import validateSession from './session.js';
-import errorMessages, { createAuthErrorResponse } from './errors.js';
-import successMessages, { createGetResponse } from './success.js';
-import listEc2Instances from './aws/compute/ec2.js';
-import listVpcs from './aws/network/vpcs.js';
-import getCurrentAccountId from './aws/governance/sts.js';
-import isValidRegion from './aws/governance/regions.js';
-import listSubnets from './aws/network/subnets.js';
+
+import {validateSession} from './session.js';
+import {isValidRegion} from './regions.js';
+import {getCurrentAccountId} from './sts.js';
+import {listEc2Instances} from './compute.js';
+import {listSubnets, listVpcs} from './networks.js';
+import {createAuthErrorResponse, errorMessages} from './common/errors.js';
+import {createGetResponse, successMessages} from './common/success.js';
 
 // CONSTANTS
 const app = express();
@@ -74,8 +74,8 @@ app.post('/credentials', (req, res) => {
 });
 
 // GOVERNANCE ENDPOINTS
-app.get('/accounts', (req, res) => {
-  getCurrentAccountId(res);
+app.get('/accounts', async (req, res) => {
+  await getCurrentAccountId(res);
 });
 
 app.put('/regions/:regionId', (req, res) => {
@@ -86,16 +86,16 @@ app.put('/regions/:regionId', (req, res) => {
 });
 
 // NETWORK ENDPOINTS
-app.get('/network/vpcs', (req, res) => {
-  listVpcs(res, aws_region);
+app.get('/network/vpcs', async (req, res) => {
+  await listVpcs(res, aws_region);
 });
 
-app.get('/network/subnets', (req, res) => {
-  listSubnets(res, aws_region);
+app.get('/network/subnets', async (req, res) => {
+  await listSubnets(res, aws_region);
 });
 
 app.get('/compute/ec2', async (req, res) => {
-  listEc2Instances(res, aws_region);
+  await listEc2Instances(res, aws_region);
 });
 
 // MAIN

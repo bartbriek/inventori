@@ -1,5 +1,5 @@
-import { createAuthErrorResponse } from './errors.js';
-import { createAuthorizedResponse } from './success.js';
+import { createAuthErrorResponse } from './common/errors.js';
+import { createAuthorizedResponse } from './common/success.js';
 
 function validateSession(accessKey, secretKey, sessionToken) {
   let result;
@@ -11,4 +11,4 @@ function validateSession(accessKey, secretKey, sessionToken) {
   return result;
 }
 
-export default validateSession;
+export { validateSession };

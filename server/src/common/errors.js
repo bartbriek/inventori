@@ -15,5 +15,4 @@ const createAuthErrorResponse = body => {
   return result;
 };
 
-export default errorMessages;
-export { createAuthErrorResponse };
+export { errorMessages, createAuthErrorResponse };

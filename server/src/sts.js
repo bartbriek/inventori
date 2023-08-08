@@ -1,6 +1,6 @@
 import STS from 'aws-sdk/clients/sts.js';
-import successMessages, { createGetResponse } from '../../success.js';
-import errorMessages, { createAuthErrorResponse } from '../../errors.js';
+import { createGetResponse, successMessages } from './common/success.js';
+import { createAuthErrorResponse, errorMessages } from './common/errors.js';
 
 async function getCurrentAccountId(axiosResponse) {
   try {
@@ -16,4 +16,4 @@ async function getCurrentAccountId(axiosResponse) {
   }
 }
 
-export default getCurrentAccountId;
+export { getCurrentAccountId };

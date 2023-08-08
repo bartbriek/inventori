@@ -1,4 +1,4 @@
-import errorMessages from '../../errors.js';
+import { errorMessages } from './common/errors.js';
 
 const regions = ['us-east-1', 'eu-west-1', 'eu-central-1'];
 
@@ -14,4 +14,4 @@ function isValidRegion(request, response) {
   return result;
 }
 
-export default isValidRegion;
+export { isValidRegion };

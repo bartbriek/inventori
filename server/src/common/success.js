@@ -15,5 +15,4 @@ const createAuthorizedResponse = () => {
   return successMessages.Authorized;
 };
 
-export default successMessages;
-export { createGetResponse, createAuthorizedResponse };
+export { successMessages, createGetResponse, createAuthorizedResponse };

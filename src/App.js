@@ -1,10 +1,8 @@
 import './App.css';
-import CredentialScreen from './components/body/credential-screen/credential-screen';
-import Footer from './components/footer/footer';
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import InventoriScreen from './components/body/inventori-screen/inventori-screen';
-import SelectionComponent from './components/body/selection-component/selection-component';
+import React, { useEffect, useState } from 'react';
+import CredentialScreen from './components/credential-screen/credential-screen';
+import InventoriScreen from './components/inventori-screen/inventori-screen';
 
 function App() {
   const [isAuthorized, setAuthorization] = useState(false);
@@ -26,13 +24,11 @@ function App() {
       <h1>Inventori</h1>
       {isAuthorized ? (
         <div>
-          <SelectionComponent />
           <InventoriScreen />
         </div>
       ) : (
         <CredentialScreen setAuthorization={setAuthorization} />
       )}
-      {/* <Footer /> */}
     </div>
   );
 }
