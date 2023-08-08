@@ -9,6 +9,7 @@ import listEc2Instances from './aws/compute/ec2.js';
 import listVpcs from './aws/network/vpcs.js';
 import getCurrentAccountId from './aws/governance/sts.js';
 import isValidRegion from './aws/governance/regions.js';
+import listSubnets from './aws/network/subnets.js';
 
 // CONSTANTS
 const app = express();
@@ -85,8 +86,12 @@ app.put('/regions/:regionId', (req, res) => {
 });
 
 // NETWORK ENDPOINTS
-app.get('/network/vpc', (req, res) => {
+app.get('/network/vpcs', (req, res) => {
   listVpcs(res, aws_region);
+});
+
+app.get('/network/subnets', (req, res) => {
+  listSubnets(res, aws_region);
 });
 
 app.get('/compute/ec2', async (req, res) => {
