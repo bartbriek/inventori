@@ -2,7 +2,7 @@ import STS from 'aws-sdk/clients/sts.js';
 import successMessages, { createGetResponse } from '../../success.js';
 import errorMessages, { createAuthErrorResponse } from '../../errors.js';
 
-async function getAccountId(axiosResponse) {
+async function getCurrentAccountId(axiosResponse) {
   try {
     const sts = new STS();
     const response = await sts.getCallerIdentity({}).promise();
@@ -16,4 +16,4 @@ async function getAccountId(axiosResponse) {
   }
 }
 
-export default getAccountId;
+export default getCurrentAccountId;

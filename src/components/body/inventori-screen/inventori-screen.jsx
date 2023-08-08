@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Vpc from '../../aws/network/vpc/vpc';
-import Account from '../../aws/governance/account/account';
 
 function InventoriScreen({ accountId, region }) {
   const [vpcs, setVpcs] = useState([]);
@@ -15,7 +14,6 @@ function InventoriScreen({ accountId, region }) {
   return (
     <div>
       <div>
-        <Account />
         {vpcs.map(vpc => {
           return (
             <Vpc

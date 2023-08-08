@@ -7,7 +7,8 @@ import errorMessages, { createAuthErrorResponse } from './errors.js';
 import successMessages, { createGetResponse } from './success.js';
 import listEc2Instances from './aws/compute/ec2.js';
 import listVpcs from './aws/network/vpcs.js';
-import getAccountId from './aws/governance/sts.js';
+import getCurrentAccountId from './aws/governance/sts.js';
+import isValidRegion from './aws/governance/regions.js';
 
 // CONSTANTS
 const app = express();
@@ -23,7 +24,6 @@ let credentials = new AWS.Credentials({
 // AWS SDK
 AWS.config.logger = console;
 let aws_region = 'eu-west-1';
-const REGIONS = ['us-east-1', 'eu-west-1', 'eu-central-1'];
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -74,19 +74,14 @@ app.post('/credentials', (req, res) => {
 
 // GOVERNANCE ENDPOINTS
 app.get('/accounts', (req, res) => {
-  getAccountId(res);
+  getCurrentAccountId(res);
 });
 
 app.put('/regions/:regionId', (req, res) => {
-  const regionId = req.params.regionId;
-  if (REGIONS.includes(regionId)) {
-    aws_region = regionId;
-    res.status(successMessages.PutSuccess.statusCode);
-    res.send(successMessages.PutSuccess);
-  } else {
-    res.status(errorMessages.PutFailure.statusCode);
-    res.send(errorMessages.PutFailure);
-  }
+  isValidRegion(req, res);
+  aws_region = req.params.regionId;
+  res.status(successMessages.PutSuccess.statusCode);
+  res.send(successMessages.PutSuccess);
 });
 
 // NETWORK ENDPOINTS

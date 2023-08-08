@@ -17,7 +17,7 @@ function Vpc(props) {
       <h2>{props.vpc.VpcId}</h2>
       <div>
         {ec2Instances.map(instance => {
-          return <Ec2Instance instance={instance} />;
+          return <Ec2Instance key={instance.InstanceId} instance={instance} />;
         })}
       </div>
     </div>
@@ -25,10 +25,3 @@ function Vpc(props) {
 }
 
 export default Vpc;
-
-// {
-//   ec2Instances.map(instance => {
-//     console.log(instance);
-//     return <Ec2Instance instance={instance} />;
-//   });
-// }

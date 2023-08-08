@@ -4,6 +4,7 @@ import Footer from './components/footer/footer';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import InventoriScreen from './components/body/inventori-screen/inventori-screen';
+import SelectionComponent from './components/body/selection-component/selection-component';
 
 function App() {
   const [isAuthorized, setAuthorization] = useState(false);
@@ -24,11 +25,14 @@ function App() {
     <div className='App'>
       <h1>Inventori</h1>
       {isAuthorized ? (
-        <InventoriScreen />
+        <div>
+          <SelectionComponent />
+          <InventoriScreen />
+        </div>
       ) : (
         <CredentialScreen setAuthorization={setAuthorization} />
       )}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -1,0 +1,20 @@
+#selection-component {
+  padding: 20px;
+  border: 1px solid lightblue;
+  margin: 5px;
+  display: inline-block;
+}
+
+#region-heading {
+  display: block;
+  padding: 10px;
+}
+
+#accounts-heading {
+  display: block;
+  padding: 10px;
+}
+
+#inventori-button {
+  margin-top: 40px;
+}

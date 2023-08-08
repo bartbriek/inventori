@@ -4,7 +4,7 @@ const validRegions = {
 
 const errorMessages = {
   AWSAuthError: { statusCode: 401, status: 'FAILURE', body: 'UNAUTHORIZED' },
-  PutFailure: { statusCode: 403, status: 'FAILURE', body: validRegions },
+  PutFailureRegions: { statusCode: 403, status: 'FAILURE', body: validRegions },
 };
 
 const createAuthErrorResponse = body => {
