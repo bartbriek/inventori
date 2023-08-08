@@ -1,7 +1,8 @@
+import './inventori-screen.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-import Vpc from './resources-screen/account/region/vpc/vpc';
 import Menu from './menu/menu';
+import ResourcesScreen from './resources-screen/resources-screen';
 
 function InventoriScreen({ accountId, region }) {
   const [vpcs, setVpcs] = useState([]);
@@ -18,23 +19,15 @@ function InventoriScreen({ accountId, region }) {
   }
 
   return (
-    <div>
-      <div>
+    <div className='container'>
+      <div className='menu-section'>
         <Menu />
       </div>
-      <div>
-        {vpcs.map(vpc => {
-          return (
-            <Vpc
-              accountId={accountId}
-              region={region}
-              key={vpc.VpcId}
-              vpcId={vpc.VpcId}
-            />
-          );
-        })}
+      <div className='vertical-line'></div>
+      <div className='resources-section'>
+        <h1>Resources section</h1>
+        <ResourcesScreen />
       </div>
-      <button onClick={visualizeResources}>Visualize resources</button>
     </div>
   );
 }

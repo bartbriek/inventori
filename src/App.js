@@ -21,7 +21,6 @@ function App() {
 
   return (
     <div className='App'>
-      <h1>Inventori</h1>
       {isAuthorized ? (
         <div>
           <InventoriScreen />

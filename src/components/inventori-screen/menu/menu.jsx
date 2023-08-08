@@ -32,6 +32,7 @@ function SelectionComponent() {
   return (
     <div id='selection-component'>
       <div>
+        <h1>Inventori</h1>
         <div>
           <label id='accounts-heading'>
             <strong>Account ID</strong>
@@ -54,6 +55,9 @@ function SelectionComponent() {
       <button id='inventori-button' onClick={handleRegionButtonClick}>
         Save
       </button>
+      {/*<div>*/}
+      {/*  <button onClick={visualizeResources}>Visualize resources</button>*/}
+      {/*</div>*/}
     </div>
   );
 }
