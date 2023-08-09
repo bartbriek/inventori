@@ -59,7 +59,7 @@ function CredentialScreen({ setAuthorization }) {
 
   return (
     <div>
-      <form onSubmit={handleClick}>
+      <form id="credential-screen" onSubmit={handleClick}>
         <input
           className='input'
           name='accessKey'

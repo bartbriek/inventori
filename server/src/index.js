@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import cors from 'cors';
 import AWS from 'aws-sdk';
 
 import {validateSession} from './session.js';
@@ -26,9 +27,16 @@ let credentials = new AWS.Credentials({
 AWS.config.logger = console;
 let aws_region = 'eu-west-1';
 
+// CORS
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined'));
+app.use(cors(corsOptions));
 
 // AUTH ENDPOINTS
 app.get('/session', (req, res) => {

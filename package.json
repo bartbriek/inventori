@@ -32,7 +32,8 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "aws-sdk": "2.1430.0"
+    "aws-sdk": "2.1430.0",
+    "cors": "2.8.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
