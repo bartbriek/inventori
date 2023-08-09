@@ -33,7 +33,10 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "aws-sdk": "2.1430.0",
-    "cors": "2.8.5"
+    "cors": "2.8.5",
+    "@mui/material": "^5.14.4",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",

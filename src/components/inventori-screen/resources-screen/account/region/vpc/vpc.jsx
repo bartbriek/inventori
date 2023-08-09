@@ -1,26 +1,25 @@
 import './vpc.css';
-import React, { useEffect, useState } from 'react';
-import Ec2Instance from './subnet/ec2/ec2-instance';
-import axios from 'axios';
+import React from 'react';
+import Subnet from '../subnet/subnet';
+import { Paper } from '@mui/material';
 
-function Vpc({ vpcId }) {
-  const [ec2Instances, setEc2Instances] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3010/compute/ec2').then(res => {
-      setEc2Instances(res.data.body);
-    });
-  }, []);
+function Vpc({ vpc }) {
+  let vpcName = null;
+  vpc.Tags.forEach(tag => {
+    if (tag.Key === 'Name') {
+      vpcName = tag.Value;
+    }
+  });
 
   return (
-    <div id='vpc'>
-      <h2>{vpcId}</h2>
-      <div>
-        {ec2Instances.map(instance => {
-          return <Ec2Instance key={instance.InstanceId} instance={instance} />;
-        })}
-      </div>
-    </div>
+    <>
+      <Paper id='vpc'>
+        <h2>{vpcName}</h2>
+        {vpc.subnets.map(subnet => (
+          <Subnet key={subnet.SubnetId} subnet={subnet} />
+        ))}
+      </Paper>
+    </>
   );
 }
 

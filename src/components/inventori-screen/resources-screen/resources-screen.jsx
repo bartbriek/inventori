@@ -1,20 +1,10 @@
 import React from 'react';
+import Account from './account/account';
 
-function ResourcesScreen() {
+function ResourcesScreen({ accountId, region }) {
   return (
     <div>
-      {/*{vpcs.map(vpc => {*/}
-      {/*  return (*/}
-      {/*    <Vpc*/}
-      {/*      accountId={accountId}*/}
-      {/*      region={region}*/}
-      {/*      key={vpc.VpcId}*/}
-      {/*      vpcId={vpc.VpcId}*/}
-      {/*    />*/}
-      {/*  );*/}
-      {/*})}*/}
-
-      <h2>Resource 1</h2>
+      <Account accountId={accountId} region={region} />
     </div>
   );
 }

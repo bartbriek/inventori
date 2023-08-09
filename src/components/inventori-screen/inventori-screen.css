@@ -11,7 +11,7 @@ body, html {
 
 .menu-section {
     flex: 1;
-    background-color: #f0f0f0;
+    /*background-color: #e7eaf6;*/
     padding: 20px;
     height: 100%;
     box-sizing: border-box;
@@ -19,7 +19,7 @@ body, html {
 
 .resources-section {
     flex: 5;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
     padding: 20px;
     height: 100%;
     box-sizing: border-box;
