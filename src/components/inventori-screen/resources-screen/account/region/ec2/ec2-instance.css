@@ -1,6 +1,6 @@
 #ec2-instance {
   padding: 20px;
-  /*!*border: 1px solid lightblue;*!*/
   margin: 5px;
   display: inline-block;
+  background-color: rgba(208, 189, 19, 0.88);
 }

@@ -1,6 +1,8 @@
 import './credential-screen.css';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Box, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
 
 function CredentialScreen({ setAuthorization }) {
   const [keys, setKeys] = useState({
@@ -32,22 +34,23 @@ function CredentialScreen({ setAuthorization }) {
   };
 
   const handleChange = event => {
-    const { value, name } = event.target;
+    const { value, id } = event.target;
 
     setKeys(prevValue => {
-      if (name === 'accessKey') {
+      console.log('here');
+      if (id === 'input-access-key') {
         return {
           accessKey: value,
           secretKey: prevValue.secretKey,
           sessionToken: prevValue.sessionToken,
         };
-      } else if (name === 'secretKey') {
+      } else if (id === 'input-secret-key') {
         return {
           accessKey: prevValue.accessKey,
           secretKey: value,
           sessionToken: prevValue.sessionToken,
         };
-      } else if (name === 'sessionToken') {
+      } else if (id === 'input-session-token') {
         return {
           accessKey: prevValue.accessKey,
           secretKey: prevValue.secretKey,
@@ -59,42 +62,59 @@ function CredentialScreen({ setAuthorization }) {
 
   return (
     <div>
-      <form id="credential-screen" onSubmit={handleClick}>
-        <input
-          className='input'
-          name='accessKey'
-          placeholder='Access Key'
-          onChange={handleChange}
-          type='text'
-          value={keys.accessKey}
-        />
+      <Box id='box-credential-screen'>
+        <form id='credential-screen' onSubmit={handleClick}>
+          <TextField
+            id='input-access-key'
+            label='Access Key'
+            variant='standard'
+            onChange={handleChange}
+            value={keys.accessKey}
+            multiline
+            required
+            maxRows={5}
+            fullWidth
+          />
 
-        <br />
+          <br />
 
-        <input
-          className='input'
-          name='secretKey'
-          placeholder='Secret Key'
-          onChange={handleChange}
-          type='text'
-          value={keys.secretKey}
-        />
+          <TextField
+            id='input-secret-key'
+            label='Secret Key'
+            variant='standard'
+            onChange={handleChange}
+            value={keys.secretKey}
+            multiline
+            required
+            maxRows={5}
+            fullWidth
+          />
 
-        <br />
+          <br />
 
-        <input
-          className='input'
-          name='sessionToken'
-          placeholder='Session Token'
-          onChange={handleChange}
-          type='text'
-          value={keys.sessionToken}
-        />
+          <TextField
+            id='input-session-token'
+            label='Session Token'
+            variant='standard'
+            onChange={handleChange}
+            value={keys.sessionToken}
+            multiline
+            required
+            maxRows={5}
+            fullWidth
+          />
 
-        <br />
+          <br />
 
-        <button type='submit'>Submit credentials</button>
-      </form>
+          <Button
+            id='credentials-submit-button'
+            variant='contained'
+            type='submit'
+          >
+            Submit credentials
+          </Button>
+        </form>
+      </Box>
     </div>
   );
 }

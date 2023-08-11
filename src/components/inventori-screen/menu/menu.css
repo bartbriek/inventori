@@ -1,19 +1,35 @@
-#selection-component {
- padding: 20px;
- margin: 5px;
- display: inline-block;
+
+h1 {
+ font-family: Avenir, serif;
+ font-weight: bold;
+}
+
+body {
+ font-weight: normal;
+ font-family: Avenir, serif;
 }
 
 #region-heading {
  display: block;
  padding: 10px;
+ color: rgb(255,255,255);
 }
 
-#accounts-heading {
- display: block;
- padding: 10px;
+#regions-select {
+ border: 1px solid rgb(140, 163, 186);
+ color: rgb(255,255,255);
+}
+
+#account-heading {
+ color: rgb(255,255,255);
+}
+
+#account-label {
+ color: rgb(140, 163, 186);
 }
 
 #inventori-button {
  margin-top: 40px;
+ background-color: rgb(140, 163, 186);
 }
+

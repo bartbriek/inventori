@@ -4,13 +4,11 @@ import morgan from 'morgan';
 import cors from 'cors';
 import AWS from 'aws-sdk';
 
-import {validateSession} from './session.js';
-import {isValidRegion} from './regions.js';
-import {getCurrentAccountId} from './sts.js';
-import {listEc2Instances} from './compute.js';
-import {listSubnets, listVpcs} from './networks.js';
-import {createAuthErrorResponse, errorMessages} from './common/errors.js';
-import {createGetResponse, successMessages} from './common/success.js';
+import { validateSession } from './session.js';
+import { getCurrentAccountId } from './sts.js';
+import { fetchAwsResources } from './resources.js';
+import { createGetResponse, successMessages } from './common/success.js';
+import { determineCorrelations } from './correlations.js';
 
 // CONSTANTS
 const app = express();
@@ -25,13 +23,13 @@ let credentials = new AWS.Credentials({
 
 // AWS SDK
 AWS.config.logger = console;
-let aws_region = 'eu-west-1';
+let awsRegion = 'eu-west-1';
 
 // CORS
-var corsOptions = {
+let corsOptions = {
   origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,24 +46,6 @@ app.get('/session', (req, res) => {
 
   res.status(sessionResponse.statusCode);
   res.send(sessionResponse);
-});
-
-app.get('/credentials', (req, res) => {
-  if (credentials.accessKeyId === 'dummy') {
-    res.status(errorMessages.AWSAuthError.statusCode);
-    res.send(createAuthErrorResponse());
-  } else {
-    res.status(successMessages.GetSuccess.statusCode);
-    res.send(
-      createGetResponse({
-        credentials: {
-          access_key: credentials.accessKeyId,
-          secretKey: credentials.secretAccessKey,
-          sessionToken: credentials.sessionToken,
-        },
-      }),
-    );
-  }
 });
 
 app.post('/credentials', (req, res) => {
@@ -86,24 +66,20 @@ app.get('/accounts', async (req, res) => {
   await getCurrentAccountId(res);
 });
 
+app.get('/regions', async (req, res) => {
+  // fetch resources
+  const resources = await fetchAwsResources(awsRegion);
+
+  // Make the connections
+  const responseBody = determineCorrelations(resources);
+  res.status(200);
+  res.send(createGetResponse(responseBody));
+});
+
 app.put('/regions/:regionId', (req, res) => {
-  isValidRegion(req, res);
-  aws_region = req.params.regionId;
+  awsRegion = req.params.regionId;
   res.status(successMessages.PutSuccess.statusCode);
   res.send(successMessages.PutSuccess);
-});
-
-// NETWORK ENDPOINTS
-app.get('/network/vpcs', async (req, res) => {
-  await listVpcs(res, aws_region);
-});
-
-app.get('/network/subnets', async (req, res) => {
-  await listSubnets(res, aws_region);
-});
-
-app.get('/compute/ec2', async (req, res) => {
-  await listEc2Instances(res, aws_region);
 });
 
 // MAIN

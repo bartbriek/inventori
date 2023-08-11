@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Menu from './menu/menu';
 import ResourcesScreen from './resources-screen/resources-screen';
+import { Box } from '@mui/material';
 
 function InventoriScreen() {
   const [accountId, setAccountId] = useState('');
-  const [region, setSelectedRegion] = useState('');
+  const [region, setSelectedRegion] = useState('eu-west-1');
   const [regionFlag, setRegionFlag] = useState(false);
 
   // Region Selection
@@ -24,14 +25,21 @@ function InventoriScreen() {
   });
 
   return (
-    <div className='container'>
-      <div className='menu-section'>
-        <Menu accountId={accountId} region={region} handleSelectChange={handleSelectChange} setRegionFlag={setRegionFlag}/>
-      </div>
-      <div className='resources-section'>
-        {regionFlag ? <ResourcesScreen accountId={accountId} region={region}/> : null}
-      </div>
-    </div>
+    <>
+      <Box id='menu-box'>
+        <Menu
+          accountId={accountId}
+          region={region}
+          handleSelectChange={handleSelectChange}
+          setRegionFlag={setRegionFlag}
+        />
+      </Box>
+      <Box id='resources-box'>
+        {regionFlag ? (
+          <ResourcesScreen accountId={accountId} region={region} />
+        ) : null}
+      </Box>
+    </>
   );
 }
 

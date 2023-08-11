@@ -1,14 +1,14 @@
 import React from 'react';
 import Vpc from '../vpc/vpc';
-import { Paper } from '@mui/material';
 
 function FullRegionComponent({ resources }) {
+  console.log(resources);
   return (
-    <Paper>
+    <div>
       {resources.map(vpc => (
         <Vpc key={vpc.VpcId} vpc={vpc} />
       ))}
-    </Paper>
+    </div>
   );
 }
 

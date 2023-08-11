@@ -11,7 +11,6 @@ body, html {
 
 .menu-section {
     flex: 1;
-    /*background-color: #e7eaf6;*/
     padding: 20px;
     height: 100%;
     box-sizing: border-box;
@@ -19,9 +18,25 @@ body, html {
 
 .resources-section {
     flex: 5;
-    /*background-color: #ffffff;*/
     padding: 20px;
     height: 100%;
     box-sizing: border-box;
 }
 
+#menu-box {
+    height: 100vh;
+    position: fixed;
+    width: 280px;
+    background-color: rgb(34, 43, 54);
+}
+
+#resources-box {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: calc(150% - 280px);
+    margin-left: 280px;
+}
+
+#box {
+    background-color: rgb(34, 43, 54);
+}

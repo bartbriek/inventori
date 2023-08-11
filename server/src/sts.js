@@ -1,10 +1,10 @@
-import STS from 'aws-sdk/clients/sts.js';
+import AWS from 'aws-sdk';
 import { createGetResponse, successMessages } from './common/success.js';
 import { createAuthErrorResponse, errorMessages } from './common/errors.js';
 
 async function getCurrentAccountId(axiosResponse) {
   try {
-    const sts = new STS();
+    const sts = new AWS.STS();
     const response = await sts.getCallerIdentity({}).promise();
     console.log(response);
     axiosResponse.status(successMessages.GetSuccess.statusCode);

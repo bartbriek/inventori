@@ -2,7 +2,6 @@ import './region.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FullRegionComponent from './full-region-component/full-region-component';
-import { Paper } from '@mui/material';
 
 async function fetchData() {
   // step 1: fetch all vpcs
@@ -16,13 +15,22 @@ async function fetchData() {
   const subnets = subnetsResponse.data.body;
 
   // step 3: fetch all ec2 instances
-  const ec2InstancesResponse = axios.get('http://localhost:3010/compute/ec2');
-  const ec2Instances = (await ec2InstancesResponse).data.body;
+  const ec2InstancesResponse = await axios.get(
+    'http://localhost:3010/compute/ec2',
+  );
+  const ec2Instances = ec2InstancesResponse.data.body;
 
-  const result = {};
+  // Fetch all s3 buckets
+  const s3BucketsResponse = await axios.get(
+    'http://localhost:3010/storage/s3buckets',
+  );
+  const s3Buckets = s3BucketsResponse.data.body;
 
+  const result = { vpcs: [], buckets: [], dynamodb: [], rds: [] };
+
+  // Add vpcs to the result object
   vpcs.forEach(vpc => {
-    result[vpc.VpcId] = {
+    result.vpcs[vpc.VpcId] = {
       ...vpc,
       subnets: [],
     };
@@ -30,8 +38,8 @@ async function fetchData() {
 
   // Add subnets to the result object
   subnets.forEach(subnet => {
-    if (result[subnet.VpcId]) {
-      result[subnet.VpcId].subnets.push({
+    if (result.vpcs[subnet.VpcId]) {
+      result.vpcs[subnet.VpcId].subnets.push({
         ...subnet,
         instances: [],
       });
@@ -40,8 +48,8 @@ async function fetchData() {
 
   // Add ec2 instances to the right subnets
   ec2Instances.forEach(instance => {
-    if (result[instance.VpcId]) {
-      const subnet = result[instance.VpcId].subnets.find(
+    if (result.vpcs[instance.VpcId]) {
+      const subnet = result.vpcs[instance.VpcId].subnets.find(
         subnet => subnet.SubnetId === instance.SubnetId,
       );
       if (subnet) {
@@ -50,9 +58,12 @@ async function fetchData() {
     }
   });
 
-  const final = Object.values(result);
-  console.log(final);
-  return final;
+  // Add S3 buckets to result object
+  s3Buckets.forEach(bucket => {
+    result['buckets'].push(bucket);
+  });
+
+  return result;
 }
 
 function Region({ region }) {
@@ -61,20 +72,21 @@ function Region({ region }) {
   useEffect(() => {
     const fetchDataAsync = async () => {
       const result = await fetchData();
-      setFetchedResources(result);
+      setFetchedResources(Object.keys(result.vpcs));
     };
 
     fetchDataAsync();
+    console.log(fetchedResources);
   }, []);
 
   return (
     <>
-      <Paper id='region'>
+      <div id='region'>
         {region}
         <div id='resources'>
           <FullRegionComponent resources={fetchedResources} />
         </div>
-      </Paper>
+      </div>
     </>
   );
 }

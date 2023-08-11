@@ -1,6 +1,5 @@
 import React from 'react';
 import './ec2-instance.css';
-import { Paper } from '@mui/material';
 
 function Ec2Instance({ instance }) {
   let instanceName = null;
@@ -11,10 +10,10 @@ function Ec2Instance({ instance }) {
   });
 
   return (
-    <Paper id='ec2-instance'>
+    <div id='ec2-instance'>
       {instanceName}
       {instance.InstanceId}
-    </Paper>
+    </div>
   );
 }
 
