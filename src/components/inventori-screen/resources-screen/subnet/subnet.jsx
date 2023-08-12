@@ -7,7 +7,7 @@ import { Paper } from '@mui/material';
 function Subnet({ subnet }) {
   return (
     <Paper id='subnet'>
-      {subnet.SubnetName}
+      <strong>{subnet.SubnetName}</strong>
       <div>
         {subnet.Ec2Instances.map(ec2Instance => {
           let instance = <></>;

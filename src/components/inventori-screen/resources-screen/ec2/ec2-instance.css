@@ -2,5 +2,13 @@
   padding: 20px;
   margin: 5px;
   display: inline-block;
-  background-color: rgba(208, 189, 19, 0.88);
+}
+
+#ec2-image-logo {
+  height: 50px;
+  width: 50px;
+}
+
+#ec2-instance-name {
+  font-size: 12px;
 }

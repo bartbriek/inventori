@@ -1,7 +1,16 @@
 #lambda-function {
     padding: 20px;
     margin: 5px;
-    display: inline-block;
-    background-color: rgba(13, 68, 171, 0.88);
-    color: white;
+    display: initial;
+    /*background-color: rgba(13, 68, 171, 0.88);*/
+    /*color: white;*/
+}
+
+#lambda-function-logo {
+    height: 50px;
+    width: 50px;
+}
+
+#lambda-function-name {
+    font-size: 12px;
 }

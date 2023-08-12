@@ -2,5 +2,14 @@
     padding: 20px;
     margin: 5px;
     display: inline-block;
-    background-color: rgba(109, 141, 107, 0.88);
+    /*background-color: rgba(109, 141, 107, 0.88);*/
+}
+
+#dynamodb-image-logo {
+    height: 50px;
+    width: 50px;
+}
+
+#dynamodb-instance-name {
+    font-size: 12px;
 }
