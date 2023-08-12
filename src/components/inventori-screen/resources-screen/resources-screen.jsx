@@ -1,11 +1,67 @@
-import React from 'react';
-import Account from './account/account';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Vpc from './vpc/vpc';
+import { Skeleton } from '@mui/material';
+import Bucket from './bucket/bucket';
+import Lambda from './lambda/lambda';
+import Dynamodb from './dynamodb/dynamodb';
 
-function ResourcesScreen({ accountId, region }) {
+function ResourcesScreen() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [resources, setResources] = useState([]);
+
+  const fetchResources = async () => {
+    const response = await axios.get('http://localhost:3010/regions');
+    return response.data.body;
+  };
+
+  useEffect(() => {
+    fetchResources().then(response => {
+      setResources(response);
+      setIsLoading(false);
+    });
+  }, []);
+
+  const generateResourceComponents = () => {
+    return (
+      <>
+        <div>
+          {resources.vpc.map(vpc => {
+            return <Vpc key={vpc.VpcId} vpc={vpc} />;
+          })}
+        </div>
+        <div>
+          {resources.s3.map(bucket => {
+            return <Bucket key={bucket.BucketName} bucket={bucket} />;
+          })}
+        </div>
+        <div>
+          {resources.lambda.map(lambdaFunction => {
+            return (
+              <Lambda
+                key={lambdaFunction.FunctionArn}
+                lambdaFunction={lambdaFunction}
+              />
+            );
+          })}
+        </div>
+        <div>
+          {resources.dynamodb.map(table => {
+            return <Dynamodb key={table.TableArn} dynamoDbTable={table} />;
+          })}
+        </div>
+      </>
+    );
+  };
+
   return (
-    <>
-      <Account accountId={accountId} region={region} />
-    </>
+    <div>
+      {isLoading ? (
+        <Skeleton variant='rounded' width={600} height={800} />
+      ) : (
+        generateResourceComponents()
+      )}
+    </div>
   );
 }
 

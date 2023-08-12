@@ -1,6 +1,6 @@
-#region {
+#vpc {
   padding: 20px;
-  border: 1px solid #131313;
+  border: 1px solid rgb(34, 43, 54);
   margin: 5px;
   display: inline-block;
 }

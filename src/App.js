@@ -10,8 +10,12 @@ function App() {
   useEffect(() => {
     axios
       .get('http://localhost:3010/session')
-      .then(() => {
-        setAuthorization(true);
+      .then(response => {
+        if (response.status === 200) {
+          setAuthorization(true);
+        } else {
+          setAuthorization(false);
+        }
       })
       .catch(err => {
         console.log(err);

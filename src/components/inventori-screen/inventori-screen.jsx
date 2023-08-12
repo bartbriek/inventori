@@ -16,13 +16,10 @@ function InventoriScreen() {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3010/accounts').then(
-      response => {
-        setAccountId(response.data.body.account_id);
-      },
-      [accountId],
-    );
-  });
+    axios.get('http://localhost:3010/accounts').then(response => {
+      setAccountId(response.data.body.account_id);
+    });
+  }, []);
 
   return (
     <>
@@ -34,11 +31,7 @@ function InventoriScreen() {
           setRegionFlag={setRegionFlag}
         />
       </Box>
-      <Box id='resources-box'>
-        {regionFlag ? (
-          <ResourcesScreen accountId={accountId} region={region} />
-        ) : null}
-      </Box>
+      <Box id='resources-box'>{regionFlag ? <ResourcesScreen /> : null}</Box>
     </>
   );
 }

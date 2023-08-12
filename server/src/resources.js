@@ -75,9 +75,7 @@ const fetchLambdas = async awsService => {
         .listFunctions(params)
         .promise();
 
-      console.log(lambdaDataResponse);
       lambdaFunctions.push(...lambdaDataResponse.Functions);
-
       nextMarker = result.NextMarker;
     } while (nextMarker);
 
@@ -189,7 +187,6 @@ const fetchRdsResources = async awsService => {
 
     // Loop through each standalone instance
     for (const instance of instances.DBInstances) {
-      console.log('here');
       result.push(instance);
     }
   } catch (error) {

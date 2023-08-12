@@ -1,7 +1,8 @@
 
-h1 {
+#app-name {
  font-family: Avenir, serif;
  font-weight: bold;
+ color: rgb(255, 255, 255);
 }
 
 body {

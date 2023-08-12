@@ -29,15 +29,17 @@ const createSubnetObject = subnet => {
 };
 
 const createEc2Object = ec2Instance => {
+  // TODO: Find out why stuff is different for some EC2 instances
   let instanceName = '';
   ec2Instance.Tags.forEach(tag => {
-    if (tag.key === 'Name') {
+    if (tag.Key === 'Name') {
       instanceName = tag.value;
     }
   });
 
   return {
     ImageId: ec2Instance.ImageId,
+    InstanceId: ec2Instance.InstanceId,
     InstanceName: instanceName,
     InstanceType: ec2Instance.ImageId,
     AvailabilityZone: ec2Instance.Placement.AvailabilityZone,
@@ -49,8 +51,15 @@ const createEc2Object = ec2Instance => {
 };
 
 const createRdsObject = rdsInstance => {
+  const subnetIds = rdsInstance.DBSubnetGroup.Subnets.map(subnet => {
+    return subnet.SubnetIdentifier;
+  });
+
   return {
+    DBIdentifier: rdsInstance.DBInstanceIdentifier,
     DBClusterIdentifier: rdsInstance.DBClusterIdentifier,
+    DBSubnetGroupName: rdsInstance.DBSubnetGroup.DBSubnetGroupName,
+    DBSubnetIds: subnetIds,
     DBSubnetGroup: rdsInstance.DBSubnetGroup,
     Endpoint: rdsInstance.Endpoint,
     Engine: rdsInstance.Engine,
@@ -120,7 +129,6 @@ function determineCorrelations(resourcesList) {
 
       // Correlate Lambda Function resources
       resourcesList.lambda.forEach(lambdaFunction => {
-        console.log(lambdaFunction);
         if (lambdaFunction.VpcConfig) {
           if (lambdaFunction.VpcConfig.VpcId === vpcId) {
             lambdaFunctions.push(createLambdaObject(lambdaFunction));
