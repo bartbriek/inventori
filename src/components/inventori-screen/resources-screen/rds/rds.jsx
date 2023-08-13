@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './rds.css';
-import { Paper, Popover } from '@mui/material';
+import { Popover } from '@mui/material';
 
 function Rds({ instance }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = event => {
     setAnchorEl(event.currentTarget);

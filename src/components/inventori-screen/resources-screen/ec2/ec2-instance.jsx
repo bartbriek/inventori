@@ -3,7 +3,7 @@ import './ec2-instance.css';
 import { Popover } from '@mui/material';
 
 function Ec2Instance({ instance }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = event => {
     setAnchorEl(event.currentTarget);

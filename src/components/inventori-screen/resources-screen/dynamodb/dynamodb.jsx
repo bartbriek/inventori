@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './dynamodb.css';
-import { Paper, Popover } from '@mui/material';
+import { Popover } from '@mui/material';
 
 function Dynamodb({ dynamoDbTable }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
