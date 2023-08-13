@@ -3,7 +3,7 @@ import './dynamodb.css';
 import { Popover } from '@mui/material';
 
 function Dynamodb({ dynamoDbTable }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = event => {
     setAnchorEl(event.currentTarget);
