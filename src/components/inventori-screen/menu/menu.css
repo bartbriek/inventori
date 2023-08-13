@@ -1,4 +1,3 @@
-
 #app-name {
  font-family: Avenir, serif;
  font-weight: bold;
@@ -12,7 +11,7 @@ body {
 
 #region-heading {
  display: block;
- padding: 10px;
+ padding: 5px;
  color: rgb(255,255,255);
 }
 
@@ -34,3 +33,6 @@ body {
  background-color: rgb(140, 163, 186);
 }
 
+#change-account-button {
+ background-color: rgb(140, 163, 186);
+}

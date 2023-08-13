@@ -1,6 +1,8 @@
-#subnet {
-  padding: 20px;
-  margin: 5px;
-  display: flex;
-  width: 300px;
+.subnet-container {
+    margin: 5px;
+    padding: 20px;
+    border: 1px solid rgba(46, 148, 13, 0.2);
+    display: flex;
+    flex-direction: row;
+    min-height: 300px;
 }

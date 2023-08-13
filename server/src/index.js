@@ -48,6 +48,15 @@ app.get('/session', (req, res) => {
   res.send(sessionResponse);
 });
 
+app.put('/session', (req, res) => {
+  credentials.accessKeyId = 'dummy';
+  credentials.secretAccessKey = 'dummy';
+  credentials.sessionToken = 'dummy';
+
+  res.status(200);
+  res.send({ statusCode: 200, status: 'SUCCESS', body: {} });
+});
+
 app.post('/credentials', (req, res) => {
   const requestBody = req.body;
   credentials = {

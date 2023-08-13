@@ -10,6 +10,7 @@ function SelectionComponent({
   setRegionFlag,
   accountId,
   region,
+  setAuthorization,
 }) {
   const [snackbarEnabled, setSnackbarEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,59 +36,9 @@ function SelectionComponent({
     setSnackbarEnabled(false);
   };
 
-  const generateMenuComponent = () => {
-    return (
-      <div id='selection-component'>
-        <h1 id='app-name'>Inventori</h1>
-        <div>
-          <InputLabel id='account-heading'>
-            <strong>Account Id</strong>
-          </InputLabel>
-          <InputLabel id='account-label'>{accountId}</InputLabel>
-          <br />
-        </div>
-        <div>
-          <br />
-          <InputLabel id='region-heading'>
-            <strong>Regions</strong>
-          </InputLabel>
-
-          <Select
-            labelId='regions-select'
-            id='regions-select'
-            value={region}
-            name='regions'
-            label='Region'
-            onChange={handleSelectChange}
-          >
-            <MenuItem value='us-east-1'>us-east-1</MenuItem>
-            <MenuItem value='eu-west-1'>eu-west-1</MenuItem>
-            <MenuItem value='eu-central-1'>eu-central-1</MenuItem>
-          </Select>
-          <br />
-        </div>
-        <Button
-          id='inventori-button'
-          variant='contained'
-          onClick={handleRegionButtonClick}
-        >
-          Visualize
-        </Button>
-        <Snackbar
-          open={snackbarEnabled}
-          autoHideDuration={3000}
-          onClose={handleSnackbarClose}
-        >
-          <Alert
-            onClose={handleSnackbarClose}
-            severity='success'
-            sx={{ width: '100%' }}
-          >
-            Started visualization...
-          </Alert>
-        </Snackbar>
-      </div>
-    );
+  const handleChangeAccountClick = async () => {
+    await axios.put('http://localhost:3010/session');
+    setAuthorization(false);
   };
 
   return (
@@ -95,7 +46,76 @@ function SelectionComponent({
       {isLoading ? (
         <Skeleton variant='rounded' width={260} height={500} />
       ) : (
-        generateMenuComponent()
+        <div id='menu'>
+          <h1 id='app-name'>Inventori</h1>
+          <div>
+            <InputLabel id='account-heading'>
+              <strong>Account Id</strong>
+            </InputLabel>
+            <InputLabel id='account-label'>{accountId}</InputLabel>
+            <br />
+            <Button
+              id='change-account-button'
+              variant='contained'
+              onClick={handleChangeAccountClick}
+            >
+              Change Account
+            </Button>
+            <Snackbar
+              open={snackbarEnabled}
+              autoHideDuration={3000}
+              onClose={handleSnackbarClose}
+            >
+              <Alert
+                onClose={handleSnackbarClose}
+                severity='success'
+                sx={{ width: '100%' }}
+              >
+                Cleared credentials successfully!
+              </Alert>
+            </Snackbar>
+          </div>
+          <div>
+            <br />
+            <InputLabel id='region-heading'>
+              <strong>Regions</strong>
+            </InputLabel>
+
+            <Select
+              labelId='regions-select'
+              id='regions-select'
+              value={region}
+              name='regions'
+              label='Region'
+              onChange={handleSelectChange}
+            >
+              <MenuItem value='us-east-1'>us-east-1</MenuItem>
+              <MenuItem value='eu-west-1'>eu-west-1</MenuItem>
+              <MenuItem value='eu-central-1'>eu-central-1</MenuItem>
+            </Select>
+            <br />
+          </div>
+          <Button
+            id='inventori-button'
+            variant='contained'
+            onClick={handleRegionButtonClick}
+          >
+            Visualize
+          </Button>
+          <Snackbar
+            open={snackbarEnabled}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+          >
+            <Alert
+              onClose={handleSnackbarClose}
+              severity='success'
+              sx={{ width: '100%' }}
+            >
+              Started visualization...
+            </Alert>
+          </Snackbar>
+        </div>
       )}
     </>
   );

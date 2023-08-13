@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Menu from './menu/menu';
 import ResourcesScreen from './resources-screen/resources-screen';
-import { Box } from '@mui/material';
 
-function InventoriScreen() {
+function InventoriScreen({ setAuthorization }) {
   const [accountId, setAccountId] = useState('');
   const [region, setSelectedRegion] = useState('eu-west-1');
   const [regionFlag, setRegionFlag] = useState(false);
@@ -22,17 +21,18 @@ function InventoriScreen() {
   }, []);
 
   return (
-    <>
-      <Box id='menu-box'>
-        <Menu
-          accountId={accountId}
-          region={region}
-          handleSelectChange={handleSelectChange}
-          setRegionFlag={setRegionFlag}
-        />
-      </Box>
-      <Box id='resources-box'>{regionFlag ? <ResourcesScreen /> : null}</Box>
-    </>
+    <div className='container'>
+      <Menu
+        accountId={accountId}
+        region={region}
+        handleSelectChange={handleSelectChange}
+        setRegionFlag={setRegionFlag}
+        setAuthorization={setAuthorization}
+      />
+      <div className='resources-container'>
+        {regionFlag ? <ResourcesScreen /> : null}
+      </div>
+    </div>
   );
 }
 

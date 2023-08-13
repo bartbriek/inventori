@@ -27,7 +27,7 @@ function App() {
     <div className='App'>
       {isAuthorized ? (
         <div>
-          <InventoriScreen />
+          <InventoriScreen setAuthorization={setAuthorization} />
         </div>
       ) : (
         <CredentialScreen setAuthorization={setAuthorization} />

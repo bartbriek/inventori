@@ -36,7 +36,8 @@
     "cors": "2.8.5",
     "@mui/material": "^5.14.4",
     "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0"
+    "@emotion/styled": "^11.11.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",

@@ -2,7 +2,8 @@
     padding: 20px;
     margin: 5px;
     display: inline-block;
-    /*background-color: rgba(109, 141, 107, 0.88);*/
+    height: 80px;
+    width: 80px;
 }
 
 #dynamodb-image-logo {

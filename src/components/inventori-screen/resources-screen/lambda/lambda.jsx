@@ -1,32 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './lambda.css';
+import { Paper, Popover } from '@mui/material';
 
 function Lambda({ lambdaFunction }) {
-  const [showDetails, setShowDetails] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  function handleMouseOver() {
-    setShowDetails(true);
-  }
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  function handleMouseOut() {
-    setShowDetails(false);
-  }
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   return (
-    <div id='lambda-function'>
-      <img
-        id='lambda-function-logo'
-        src='https://upload.wikimedia.org/wikipedia/commons/5/5c/Amazon_Lambda_architecture_logo.svg'
-        alt='Lambda function logo'
-        onMouseOver={handleMouseOver}
-        // onMouseOut={handleMouseOut}
-      />
-      AWS Lambda
-      {showDetails ? (
-        <p id='lambda-function-name'>{lambdaFunction.FunctionName}</p>
-      ) : null}
-    </div>
+    <Paper id='lambda-function'>
+      <div>
+        <img
+          id='lambda-function-logo'
+          src='https://upload.wikimedia.org/wikipedia/commons/5/5c/Amazon_Lambda_architecture_logo.svg'
+          alt='Lambda function logo'
+          onMouseOver={handlePopoverOpen}
+          onMouseOut={handlePopoverClose}
+        />
+      </div>
+      <div id='lambda-function-name'>Lambda Function</div>
+      <Popover
+        id='lambda-function-details'
+        sx={{
+          pointerEvents: 'none',
+          fontSize: '8px',
+          padding: 20,
+          boxShadow: 1,
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <div>
+          <p>
+            <strong>Name: </strong>
+            <br />
+            {lambdaFunction.FunctionName}{' '}
+          </p>
+          <p>
+            <strong>ARN: </strong>
+            <br />
+            {lambdaFunction.FunctionArn}
+          </p>
+          <p>
+            <strong>Runtime: </strong>
+            <br />
+            {lambdaFunction.Runtime}
+          </p>
+        </div>
+      </Popover>
+    </Paper>
   );
 }
 
 export default Lambda;
+
+// <div>
+//   {showDetails ? (
+//     <p id='lambda-function-name'>{lambdaFunction.FunctionName}</p>
+//   ) : null}
+// </div>

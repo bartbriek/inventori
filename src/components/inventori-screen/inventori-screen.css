@@ -1,42 +1,15 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
 .container {
-    display: flex;
-    height: 100%;
-}
-
-.menu-section {
-    flex: 1;
-    padding: 20px;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.resources-section {
-    flex: 5;
-    padding: 20px;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-#menu-box {
+    display: grid;
     height: 100vh;
-    position: fixed;
-    width: 280px;
-    background-color: rgb(34, 43, 54);
+    grid-template-columns: 200px auto;
 }
 
-#resources-box {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    width: calc(150% - 280px);
-    margin-left: 280px;
+.resources-container {
+    display: grid;
+    width: auto;
 }
 
-#box {
-    background-color: rgb(34, 43, 54);
+#menu {
+ background-color: rgb(34, 43, 54);
 }
+

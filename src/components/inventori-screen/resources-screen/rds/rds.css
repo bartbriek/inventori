@@ -1,15 +1,4 @@
-#rds-instance {
-    padding: 20px;
-    margin: 5px;
-    display: inline-block;
-    /*background-color: rgba(114, 101, 10, 0.88);*/
-}
-
-#rds-instance-logo {
-    height: 50px;
-    width: 70px;
-}
-
-#rds-instance-name {
-    font-size: 12px;
-}
+/*.rds-logo {*/
+/*    height: 20px;*/
+/*    width: 30px*/
+/*}*/

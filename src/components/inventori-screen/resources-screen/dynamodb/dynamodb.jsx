@@ -1,29 +1,67 @@
 import React, { useState } from 'react';
 import './dynamodb.css';
+import { Paper, Popover } from '@mui/material';
 
 function Dynamodb({ dynamoDbTable }) {
-  const [showDetails, setShowDetails] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  function handleMouseOver() {
-    setShowDetails(true);
-  }
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  function handleMouseOut() {
-    setShowDetails(false);
-  }
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   return (
-    <div id='dynamodb-table'>
-      <img
-        id='dynamodb-image-logo'
-        src='https://upload.wikimedia.org/wikipedia/commons/f/fd/DynamoDB.png'
-        alt='DynamoDB logo'
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      />
-      DynamoDB table
-      {showDetails ? <p>{dynamoDbTable.TableName}</p> : null}
-    </div>
+    <Paper id='dynamodb-table'>
+      <div>
+        <img
+          id='dynamodb-image-logo'
+          src='https://upload.wikimedia.org/wikipedia/commons/f/fd/DynamoDB.png'
+          alt='DynamoDB logo'
+          onMouseOver={handlePopoverOpen}
+          onMouseOut={handlePopoverClose}
+        />
+      </div>
+      <div>DynamoDB table</div>
+      <Popover
+        id='dyanmodb-table-details'
+        sx={{
+          pointerEvents: 'none',
+          fontSize: '8px',
+          padding: 20,
+          boxShadow: 1,
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <div>
+          <p>
+            <strong>Name: </strong>
+            <br />
+            {dynamoDbTable.TableName}
+          </p>
+          <p>
+            <strong>ARN: </strong>
+            <br />
+            {dynamoDbTable.TableArn}
+          </p>
+        </div>
+      </Popover>
+    </Paper>
   );
 }
 

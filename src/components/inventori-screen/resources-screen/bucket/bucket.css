@@ -1,8 +1,9 @@
 #bucket {
     padding: 20px;
-    border: 1px dashed #850303;
     margin: 5px;
     display: inline-block;
+    height: 80px;
+    width: 80px;
 }
 
 #s3bucket-image-logo {

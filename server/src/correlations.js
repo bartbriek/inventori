@@ -18,9 +18,11 @@ const createSubnetObject = subnet => {
     }
   });
 
+  console.log(subnet);
   return {
     SubnetId: subnet.SubnetId,
     SubnetName: subnetName,
+    SubnetType: subnet.SubnetType,
     SubnetGroup: subnet.SubnetGroup,
     AvailabilityZone: subnet.AvailabilityZone,
     CidrBlock: subnet.CidrBlock,
