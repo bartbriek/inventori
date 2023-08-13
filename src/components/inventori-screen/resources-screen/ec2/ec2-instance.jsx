@@ -17,13 +17,15 @@ function Ec2Instance({ instance }) {
 
   return (
     // <Paper>
-    <div className='service'>
+    <div
+      className='service'
+      onMouseOver={handlePopoverOpen}
+      onMouseOut={handlePopoverClose}
+    >
       <img
         className='services-logo'
         src='https://upload.wikimedia.org/wikipedia/commons/b/b9/AWS_Simple_Icons_Compute_Amazon_EC2_Instances.svg'
         alt='EC2 image logo'
-        onMouseOver={handlePopoverOpen}
-        onMouseOut={handlePopoverClose}
       />
       <div className='service-title'>EC2 instance</div>
       <Popover

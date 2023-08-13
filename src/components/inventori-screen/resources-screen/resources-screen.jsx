@@ -24,76 +24,39 @@ function ResourcesScreen() {
 
   const generateResourceComponents = () => {
     return (
-      <div className='vpcs'>
-        {resources.vpc.map(vpc => {
-          return <Vpc key={vpc.VpcId} vpc={vpc} />;
-        })}
-      </div>
+      <>
+        <div className='vpcs'>
+          {resources.vpc.map(vpc => {
+            return <Vpc key={vpc.VpcId} vpc={vpc} />;
+          })}
+        </div>
+        <div className='buckets'>
+          {resources.s3.map(bucket => {
+            return <Bucket key={bucket.BucketName} bucket={bucket} />;
+          })}
+        </div>
+        <div className='lambda-functions'>
+          {resources.lambda.map(lambdaFunction => {
+            return (
+              <Lambda
+                key={lambdaFunction.FunctionArn}
+                lambdaFunction={lambdaFunction}
+              />
+            );
+          })}
+        </div>
+        <div className='dynamodb-tables'>
+          {resources.dynamodb.map(table => {
+            return <Dynamodb key={table.TableArn} dynamoDbTable={table} />;
+          })}
+        </div>
+      </>
     );
   };
 
-  return <>{isLoading ? <CircularProgress /> : generateResourceComponents()}</>;
+  return (
+    <div>{isLoading ? <CircularProgress /> : generateResourceComponents()}</div>
+  );
 }
 
 export default ResourcesScreen;
-
-{
-  /*<div>*/
-}
-{
-  /*  {resources.s3.map(bucket => {*/
-}
-{
-  /*    return <Bucket key={bucket.BucketName} bucket={bucket} />;*/
-}
-{
-  /*  })}*/
-}
-{
-  /*</div>*/
-}
-{
-  /*<div>*/
-}
-{
-  /*  {resources.lambda.map(lambdaFunction => {*/
-}
-{
-  /*    return (*/
-}
-{
-  /*      <Lambda*/
-}
-{
-  /*        key={lambdaFunction.FunctionArn}*/
-}
-{
-  /*        lambdaFunction={lambdaFunction}*/
-}
-{
-  /*      />*/
-}
-{
-  /*    );*/
-}
-{
-  /*  })}*/
-}
-{
-  /*</div>*/
-}
-{
-  /*<div>*/
-}
-{
-  /*  {resources.dynamodb.map(table => {*/
-}
-{
-  /*    return <Dynamodb key={table.TableArn} dynamoDbTable={table} />;*/
-}
-{
-  /*  })}*/
-}
-{
-  /*</div>*/
-}

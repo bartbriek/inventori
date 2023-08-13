@@ -16,17 +16,18 @@ function Lambda({ lambdaFunction }) {
   const open = Boolean(anchorEl);
 
   return (
-    <Paper id='lambda-function'>
-      <div>
-        <img
-          id='lambda-function-logo'
-          src='https://upload.wikimedia.org/wikipedia/commons/5/5c/Amazon_Lambda_architecture_logo.svg'
-          alt='Lambda function logo'
-          onMouseOver={handlePopoverOpen}
-          onMouseOut={handlePopoverClose}
-        />
-      </div>
-      <div id='lambda-function-name'>Lambda Function</div>
+    <div
+      className='service'
+      onMouseOver={handlePopoverOpen}
+      onMouseOut={handlePopoverClose}
+    >
+      <img
+        className='services-logo'
+        src='https://upload.wikimedia.org/wikipedia/commons/5/5c/Amazon_Lambda_architecture_logo.svg'
+        alt='Lambda function logo'
+      />
+
+      <div id='service-title'>Lambda Function</div>
       <Popover
         id='lambda-function-details'
         sx={{
@@ -66,7 +67,7 @@ function Lambda({ lambdaFunction }) {
           </p>
         </div>
       </Popover>
-    </Paper>
+    </div>
   );
 }
 

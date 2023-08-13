@@ -16,17 +16,18 @@ function Dynamodb({ dynamoDbTable }) {
   const open = Boolean(anchorEl);
 
   return (
-    <Paper id='dynamodb-table'>
-      <div>
-        <img
-          id='dynamodb-image-logo'
-          src='https://upload.wikimedia.org/wikipedia/commons/f/fd/DynamoDB.png'
-          alt='DynamoDB logo'
-          onMouseOver={handlePopoverOpen}
-          onMouseOut={handlePopoverClose}
-        />
-      </div>
-      <div>DynamoDB table</div>
+    <div
+      className='service'
+      onMouseOver={handlePopoverOpen}
+      onMouseOut={handlePopoverClose}
+    >
+      <img
+        className='services-logo'
+        src='https://upload.wikimedia.org/wikipedia/commons/f/fd/DynamoDB.png'
+        alt='DynamoDB logo'
+      />
+
+      <div className='service-title'>DynamoDB table</div>
       <Popover
         id='dyanmodb-table-details'
         sx={{
@@ -61,7 +62,7 @@ function Dynamodb({ dynamoDbTable }) {
           </p>
         </div>
       </Popover>
-    </Paper>
+    </div>
   );
 }
 

@@ -16,13 +16,15 @@ function Rds({ instance }) {
   const open = Boolean(anchorEl);
 
   return (
-    <div className='service'>
+    <div
+      className='service'
+      onMouseOver={handlePopoverOpen}
+      onMouseOut={handlePopoverClose}
+    >
       <img
         className='service-logo'
         src='https://logowik.com/content/uploads/images/aws-rds2214.logowik.com.webp'
         alt='RDS instance logo'
-        onMouseOver={handlePopoverOpen}
-        onMouseOut={handlePopoverClose}
       />
       <div className='service-title'>RDS instance</div>
       <Popover

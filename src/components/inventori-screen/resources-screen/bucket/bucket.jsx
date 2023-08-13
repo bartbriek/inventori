@@ -16,17 +16,18 @@ function Bucket({ bucket }) {
   const open = Boolean(anchorEl);
 
   return (
-    <Paper id='bucket'>
-      <div>
-        <img
-          id='s3bucket-image-logo'
-          src='https://res.cloudinary.com/practicaldev/image/fetch/s--o9jchbR7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://day-journal.com/memo/images/logo/aws/s3.png'
-          alt='S3 Bucket logo'
-          onMouseOver={handlePopoverOpen}
-          onMouseOut={handlePopoverClose}
-        />
-      </div>
-      <div>S3 Bucket</div>
+    <div
+      className='service'
+      onMouseOver={handlePopoverOpen}
+      onMouseOut={handlePopoverClose}
+    >
+      <img
+        className='services-logo'
+        src='https://res.cloudinary.com/practicaldev/image/fetch/s--o9jchbR7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://day-journal.com/memo/images/logo/aws/s3.png'
+        alt='S3 Bucket logo'
+      />
+
+      <div className='service-title'>S3 Bucket</div>
       <Popover
         id='lambda-function-details'
         sx={{
@@ -56,7 +57,7 @@ function Bucket({ bucket }) {
           </p>
         </div>
       </Popover>
-    </Paper>
+    </div>
   );
 }
 

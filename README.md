@@ -6,14 +6,16 @@ Inventori tries to solve this.
 
 ## Capabilities
 
+- [ ] Add Region component
 - [x] List VPCs
+- [ ] Add availability zones
 - [x] List subnets
 - [x] List EC2 instances
 - [ ] List route tables
 - [ ] List gateways (Internet and NAT)
-- [ ] List RDS resources
-- [ ] List DynamoDb resources
-- [ ] List S3 buckets
+- [x] List RDS resources
+- [x] List DynamoDb resources
+- [x] List S3 buckets
 - [ ] List and analyze IAM policies to generate relationships
 
 ## How to run
@@ -30,7 +32,8 @@ Inventori consists of a frontend and backend. The backend is responsible for mak
 
 ## How to use the application
 
-You will need read priviliges for the following services:
+You will need to assume the SecurityAuditRole or another IAM role with the same read permissions to successfully list 
+all the resources within the AWS account. The minimal policies that you need to have are:
 
 ```HCL
     {
@@ -45,7 +48,8 @@ You will need read priviliges for the following services:
     }
 ```
 
-Create an IAM role that will have the least privilege policies that are needed and perform the sts command to generate your short lived credentials (Access Key, Secret Access Key, Session Token).
+Create an IAM role that will have the least privilege policies that are needed and perform the sts command to 
+generate your short lived credentials (Access Key, Secret Access Key, Session Token).
 
 ## Roadmap
 
