@@ -1,0 +1,15 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  place-items: center;
+}
+
+.availability-zones-container {
+  display: flex;
+  grid-area: 1 / 1;
+}
+
+.vpcs {
+  grid-area: 1 / 1;
+}

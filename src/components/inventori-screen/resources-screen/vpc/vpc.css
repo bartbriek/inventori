@@ -1,32 +1,33 @@
 .service {
-    margin: 5px;
-    padding: 20px;
-    font-size: 8px;
-    height: 40px;
-    width: 40px;
-    display: inline-flex;
-    flex-direction: column;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+  margin: 5px;
+  padding: 20px;
+  font-size: 8px;
+  height: 40px;
+  width: 40px;
+  display: inline-flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 .service-title {
-    padding: 5px;
+  padding: 5px;
 }
 
 .services-logo {
-    height: 20px;
-    width: 20px;
-    align-self: center;
+  height: 20px;
+  width: 20px;
+  align-self: center;
 }
 
 .subnets-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .vpc {
-    padding: 20px;
-    margin: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgb(181, 16, 16, 0);
 }

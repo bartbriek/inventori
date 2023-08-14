@@ -5,30 +5,54 @@ import { CircularProgress } from '@mui/material';
 import Bucket from './bucket/bucket';
 import Lambda from './lambda/lambda';
 import Dynamodb from './dynamodb/dynamodb';
+import './resources-screen.css';
 
 function ResourcesScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [resources, setResources] = useState([]);
+  const [availabilityZones, setAvailabilityZones] = useState([]);
+
+  const fetchAvailabilityZones = async () => {
+    const response = await axios.get(
+      'http://localhost:3010/region/availability-zones',
+    );
+    return response.data.body;
+  };
 
   const fetchResources = async () => {
-    const response = await axios.get('http://localhost:3010/regions');
+    const response = await axios.get('http://localhost:3010/resources');
     return response.data.body;
   };
 
   useEffect(() => {
-    fetchResources().then(response => {
-      setResources(response);
-      setIsLoading(false);
-    });
+    fetchAvailabilityZones()
+      .then(response => {
+        setAvailabilityZones(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    fetchResources()
+      .then(response => {
+        setResources(response);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
-  const generateResourceComponents = () => {
+  const generateResourceComponents = zones => {
     return (
       <>
-        <div className='vpcs'>
-          {resources.vpc.map(vpc => {
-            return <Vpc key={vpc.VpcId} vpc={vpc} />;
-          })}
+        <div id='region'>
+          Region
+          <div className='vpcs'>
+            {resources.vpc.map(vpc => {
+              return <Vpc key={vpc.VpcId} vpc={vpc} />;
+            })}
+          </div>
         </div>
         <div className='buckets'>
           {resources.s3.map(bucket => {
@@ -55,7 +79,13 @@ function ResourcesScreen() {
   };
 
   return (
-    <div>{isLoading ? <CircularProgress /> : generateResourceComponents()}</div>
+    <div>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        generateResourceComponents(availabilityZones)
+      )}
+    </div>
   );
 }
 

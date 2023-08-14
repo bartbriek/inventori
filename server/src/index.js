@@ -75,7 +75,7 @@ app.get('/accounts', async (req, res) => {
   await getCurrentAccountId(res);
 });
 
-app.get('/regions', async (req, res) => {
+app.get('/resources', async (req, res) => {
   // fetch resources
   const resources = await fetchAwsResources(awsRegion);
 
@@ -85,7 +85,25 @@ app.get('/regions', async (req, res) => {
   res.send(createGetResponse(responseBody));
 });
 
-app.put('/regions/:regionId', (req, res) => {
+app.get('/region/availability-zones', async (req, res) => {
+  const ec2 = new AWS.EC2({ region: awsRegion });
+  const availabilityZonesData = await ec2.describeAvailabilityZones().promise();
+
+  const availabilityZones = () => {
+    const zones = [];
+    availabilityZonesData.AvailabilityZones.forEach(zone => {
+      if (!zones.includes(zone.ZoneName)) {
+        zones.push(zone.ZoneName);
+      }
+    });
+    return zones;
+  };
+
+  res.status(200);
+  res.send(createGetResponse(availabilityZones()));
+});
+
+app.put('/region/:regionId', (req, res) => {
   awsRegion = req.params.regionId;
   res.status(successMessages.PutSuccess.statusCode);
   res.send(successMessages.PutSuccess);

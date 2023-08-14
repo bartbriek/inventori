@@ -24,7 +24,7 @@ function SelectionComponent({
   // Button
   const handleRegionButtonClick = async () => {
     try {
-      await axios.put(`http://localhost:3010/regions/${region}`);
+      await axios.put(`http://localhost:3010/region/${region}`);
       setRegionFlag(true);
       setSnackbarEnabled(true);
     } catch (err) {

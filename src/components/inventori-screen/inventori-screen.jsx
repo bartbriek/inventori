@@ -15,9 +15,14 @@ function InventoriScreen({ setAuthorization }) {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3010/accounts').then(response => {
-      setAccountId(response.data.body.account_id);
-    });
+    axios
+      .get('http://localhost:3010/accounts')
+      .then(response => {
+        setAccountId(response.data.body.account_id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
   return (

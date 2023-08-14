@@ -22,6 +22,30 @@ const fetchSubnets = async awsService => {
   return result;
 };
 
+const fetchRouteTables = async awsService => {
+  const result = [];
+  try {
+    let nextMarker = null;
+    do {
+      const params = {
+        Marker: nextMarker,
+      };
+
+      const routeTableDataResponse = await awsService
+        .describeRouteTables(params)
+        .promise();
+
+      console.log(routeTableDataResponse);
+
+      result.push(...routeTableDataResponse.RouteTables);
+      nextMarker = result.NextMarker;
+    } while (nextMarker);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  return result;
+};
+
 const fetchEc2Instances = async awsService => {
   const result = [];
   try {
@@ -207,6 +231,7 @@ async function fetchAwsResources(awsRegion) {
     vpc: await fetchVpcs(ec2),
     subnet: await fetchSubnets(ec2),
     ec2: await fetchEc2Instances(ec2),
+    routeTables: await fetchRouteTables(ec2),
     dynamodb: await fetchDynamoDbTables(dynamodb),
     lambda: await fetchLambdas(lambda),
     // ecs: await fetchEcsResources(ecs),

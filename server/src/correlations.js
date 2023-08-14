@@ -1,8 +1,20 @@
-const createVpcObject = (vpc, subnets, lambdaFunctions) => {
+const createVpcObject = (vpc, subnets, lambdaFunctions, routeTables) => {
+  const availabilityZones = () => {
+    const zones = [];
+    subnets.forEach(subnet => {
+      if (!zones.includes(subnet.AvailabilityZone)) {
+        zones.push(subnet.AvailabilityZone);
+      }
+    });
+    return zones;
+  };
+
   return {
     VpcId: vpc.VpcId,
     VpcArn: vpc.VpcArn,
     CidrBlock: vpc.CidrBlock,
+    AvailabilityZones: availabilityZones(),
+    RouteTables: routeTables,
     Tags: vpc.Tags,
     Subnets: subnets,
     InternetGateways: [],
@@ -18,7 +30,6 @@ const createSubnetObject = subnet => {
     }
   });
 
-  console.log(subnet);
   return {
     SubnetId: subnet.SubnetId,
     SubnetName: subnetName,
@@ -31,7 +42,6 @@ const createSubnetObject = subnet => {
 };
 
 const createEc2Object = ec2Instance => {
-  // TODO: Find out why stuff is different for some EC2 instances
   let instanceName = '';
   ec2Instance.Tags.forEach(tag => {
     if (tag.Key === 'Name') {
@@ -49,6 +59,13 @@ const createEc2Object = ec2Instance => {
     SubnetId: ec2Instance.SubnetId,
     Architecture: ec2Instance.Architecture,
     Tags: ec2Instance.Tags,
+  };
+};
+
+const createRouteTablesObject = routeTable => {
+  return {
+    RouteTableId: routeTable.RouteTableId,
+    Routes: routeTable.Routes,
   };
 };
 
@@ -105,6 +122,12 @@ function determineCorrelations(resourcesList) {
     const vpcId = vpc.VpcId;
     const vpcSubnets = [];
     const lambdaFunctions = [];
+    const routeTables = [];
+
+    // Route tables
+    for (const routeTable of resourcesList.routeTables) {
+      routeTables.push(createRouteTablesObject(routeTable));
+    }
 
     // Correlate subnets to vpc
     resourcesList.subnet.forEach(subnet => {
@@ -142,8 +165,6 @@ function determineCorrelations(resourcesList) {
         }
       });
 
-      console.log(lambdaFunctions);
-
       // And finally we add the subnet with associated instances to the VPC.
       if (vpcId === subnet.VpcId) {
         const filteredSubnet = createSubnetObject(subnet);
@@ -155,7 +176,9 @@ function determineCorrelations(resourcesList) {
       }
     }, []);
 
-    result.vpc.push(createVpcObject(vpc, vpcSubnets, lambdaFunctions));
+    result.vpc.push(
+      createVpcObject(vpc, vpcSubnets, lambdaFunctions, routeTables),
+    );
   }
 
   /*

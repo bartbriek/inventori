@@ -3,7 +3,7 @@ import React from 'react';
 import Subnet from '../subnet/subnet';
 
 function Vpc({ vpc }) {
-  const subnets = vpc.Subnets;
+  const subnets = vpc.Subnets.sort();
   const ec2Instances = [];
 
   const getVpcName = () => {
