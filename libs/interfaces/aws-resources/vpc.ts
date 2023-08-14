@@ -5,14 +5,16 @@ import ILambdaFunction from './lambda-function';
 import IEcsInstance from './ecs-instance';
 
 export default interface IVpc {
-  VpcId: string;
-  VpcArn: string;
-  CidrBlock: string;
-  AvailabilityZones: Array<string>;
-  RouteTables: Array<IRouteTable>;
-  Tags: Array<IResourceTag>;
-  Subnets: Array<ISubnet>;
-  InternetGateways: [];
-  LambdaFunctions: Array<ILambdaFunction>;
-  Ecs: Array<IEcsInstance>;
+  resourceName: string;
+  resourceType: string;
+  vpcId: string;
+  vpcArn: string;
+  cidrBlock: string;
+  availabilityZones: Array<string>;
+  routeTables: Array<IRouteTable>;
+  tags: Array<IResourceTag>;
+  subnets: Array<ISubnet>;
+  internetGateways: [];
+  lambdaFunctions: Array<ILambdaFunction>;
+  ecs: Array<IEcsInstance>;
 }

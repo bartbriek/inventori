@@ -1,1 +1,4 @@
-export default interface IRouteTableRoute {}
+export default interface IRouteTableRoute {
+  resourceName: string;
+  resourceType: string;
+}
