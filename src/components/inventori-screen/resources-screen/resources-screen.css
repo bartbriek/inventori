@@ -13,3 +13,7 @@
 .vpcs {
   grid-area: 1 / 1;
 }
+
+#spinner-container {
+  margin-top: 400px;
+}

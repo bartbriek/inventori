@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import './dynamodb.css';
 import { Popover } from '@mui/material';
 
-function Dynamodb({ dynamoDbTable }) {
+function EcsInstance({ instance }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = event => {
@@ -23,11 +22,10 @@ function Dynamodb({ dynamoDbTable }) {
     >
       <img
         className='services-logo'
-        src='https://upload.wikimedia.org/wikipedia/commons/f/fd/DynamoDB.png'
-        alt='DynamoDB logo'
+        src='https://www.logicata.com/wp-content/uploads/2020/04/AWS-Fargate_light-bg@4x.png'
+        alt='ECS image logo'
       />
-
-      <div className='service-title'>DynamoDB table</div>
+      <div className='service-title'>ECS instance</div>
       <Popover
         id='dyanmodb-table-details'
         sx={{
@@ -53,12 +51,27 @@ function Dynamodb({ dynamoDbTable }) {
           <p>
             <strong>Name: </strong>
             <br />
-            {dynamoDbTable.TableName}
+            {instance.taskName}
           </p>
           <p>
-            <strong>ARN: </strong>
+            <strong>ClusterName: </strong>
             <br />
-            {dynamoDbTable.TableArn}
+            {instance.ecsClusterName}
+          </p>
+          <p>
+            <strong>SubnetId: </strong>
+            <br />
+            {instance.subnetId}
+          </p>
+          <p>
+            <strong>Instance CPU: </strong>
+            <br />
+            {instance.cpu}
+          </p>
+          <p>
+            <strong>Task ARN: </strong>
+            <br />
+            {instance.taskArn}
           </p>
         </div>
       </Popover>
@@ -66,4 +79,4 @@ function Dynamodb({ dynamoDbTable }) {
   );
 }
 
-export default Dynamodb;
+export default EcsInstance;

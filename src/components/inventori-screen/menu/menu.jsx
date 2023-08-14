@@ -27,6 +27,7 @@ function SelectionComponent({
       await axios.put(`http://localhost:3010/region/${region}`);
       setRegionFlag(true);
       setSnackbarEnabled(true);
+      await axios.get('http://localhost:3010/resources');
     } catch (err) {
       console.error(err);
     }

@@ -1,6 +1,7 @@
 import './subnet.css';
 import React, { useState } from 'react';
 import Ec2Instance from '../ec2/ec2-instance';
+import EcsInstance from '../ecs-instance/ecs-instance';
 import Rds from '../rds/rds';
 import { Popover } from '@mui/material';
 
@@ -38,6 +39,15 @@ function Subnet({ subnet }) {
             }
             return instance;
           })}
+          {subnet.EcsInstances.map(ecsInstance => {
+            let instance = <></>;
+            if (ecsInstance.subnetId === subnet.SubnetId) {
+              instance = (
+                <EcsInstance key={ecsInstance.TaskArn} instance={ecsInstance} />
+              );
+            }
+            return instance;
+          })}
         </div>
         <Popover
           id='subnet-details'
@@ -70,6 +80,11 @@ function Subnet({ subnet }) {
               <strong>Subnet Id </strong>
               <br />
               {subnet.SubnetId}
+            </p>
+            <p>
+              <strong>Subnet Availability Zone </strong>
+              <br />
+              {subnet.AvailabilityZone}
             </p>
             <p>
               <strong>CIDR Block: </strong>

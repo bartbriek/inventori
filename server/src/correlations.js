@@ -1,4 +1,4 @@
-const createVpcObject = (vpc, subnets, lambdaFunctions, routeTables) => {
+const createVpcObject = (vpc, subnets, lambdaFunctions, routeTables, ecs) => {
   const availabilityZones = () => {
     const zones = [];
     subnets.forEach(subnet => {
@@ -19,6 +19,7 @@ const createVpcObject = (vpc, subnets, lambdaFunctions, routeTables) => {
     Subnets: subnets,
     InternetGateways: [],
     LambdaFunctions: lambdaFunctions,
+    Ecs: ecs,
   };
 };
 
@@ -123,6 +124,7 @@ function determineCorrelations(resourcesList) {
     const vpcSubnets = [];
     const lambdaFunctions = [];
     const routeTables = [];
+    const ecs = [];
 
     // Route tables
     for (const routeTable of resourcesList.routeTables) {
@@ -158,12 +160,43 @@ function determineCorrelations(resourcesList) {
           if (lambdaFunction.VpcConfig.VpcId === vpcId) {
             lambdaFunctions.push(createLambdaObject(lambdaFunction));
           } else {
-            console.log('Lambda is potentially running in another vpc');
+            console.debug('Lambda is potentially running in another vpc');
           }
         } else {
-          console.log('Lambda is not running inside a vpc');
+          console.debug('Lambda is not running inside a vpc');
         }
       });
+
+      // ECS
+      const subnetEcsInstances = [];
+      for (const ecsCluster of resourcesList.ecs) {
+        for (const service of ecsCluster.Services) {
+          for (const task of service.Tasks) {
+            let subnetId = '';
+            let taskArn = task.taskArn;
+            let taskName = taskArn.split('/')[1];
+            for (const attachment of task.attachments) {
+              for (const detail of attachment.details) {
+                if (detail.name === 'subnetId') {
+                  subnetId = detail.value;
+                }
+              }
+            }
+
+            subnetEcsInstances.push({
+              ecsClusterName: ecsCluster.clusterArn.split('/')[1],
+              serviceName: ecsCluster.serviceName,
+              launchType: ecsCluster.launchType,
+              taskName: taskName,
+              taskArn: taskArn,
+              subnetId: subnetId,
+              availabilityZone: task.availabilityZone,
+              cpu: task.cpu,
+              tags: task.tags,
+            });
+          }
+        }
+      }
 
       // And finally we add the subnet with associated instances to the VPC.
       if (vpcId === subnet.VpcId) {
@@ -172,12 +205,13 @@ function determineCorrelations(resourcesList) {
           ...filteredSubnet,
           Ec2Instances: subnetEc2Instances,
           RdsInstances: subnetRdsResources,
+          EcsInstances: subnetEcsInstances,
         });
       }
     }, []);
 
     result.vpc.push(
-      createVpcObject(vpc, vpcSubnets, lambdaFunctions, routeTables),
+      createVpcObject(vpc, vpcSubnets, lambdaFunctions, routeTables, ecs),
     );
   }
 

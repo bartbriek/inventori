@@ -26,7 +26,7 @@ function Rds({ instance }) {
         src='https://logowik.com/content/uploads/images/aws-rds2214.logowik.com.webp'
         alt='RDS instance logo'
       />
-      <div className='service-title'>RDS instance</div>
+      <div className='service-title'>{instance.DBIdentifier}</div>
       <Popover
         id='dyanmodb-table-details'
         sx={{

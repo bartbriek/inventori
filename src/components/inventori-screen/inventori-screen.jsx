@@ -11,6 +11,7 @@ function InventoriScreen({ setAuthorization }) {
 
   // Region Selection
   const handleSelectChange = async event => {
+    setRegionFlag(false);
     setSelectedRegion(event.target.value);
   };
 
@@ -35,7 +36,7 @@ function InventoriScreen({ setAuthorization }) {
         setAuthorization={setAuthorization}
       />
       <div className='resources-container'>
-        {regionFlag ? <ResourcesScreen /> : null}
+        {regionFlag ? <ResourcesScreen regionFlag={regionFlag} /> : null}
       </div>
     </div>
   );

@@ -35,8 +35,6 @@ const fetchRouteTables = async awsService => {
         .describeRouteTables(params)
         .promise();
 
-      console.log(routeTableDataResponse);
-
       result.push(...routeTableDataResponse.RouteTables);
       nextMarker = result.NextMarker;
     } while (nextMarker);
@@ -234,7 +232,7 @@ async function fetchAwsResources(awsRegion) {
     routeTables: await fetchRouteTables(ec2),
     dynamodb: await fetchDynamoDbTables(dynamodb),
     lambda: await fetchLambdas(lambda),
-    // ecs: await fetchEcsResources(ecs),
+    ecs: await fetchEcsResources(ecs),
     s3: await fetchS3Buckets(s3),
     rds: await fetchRdsResources(rds),
   };

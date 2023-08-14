@@ -27,7 +27,7 @@ function Lambda({ lambdaFunction }) {
         alt='Lambda function logo'
       />
 
-      <div id='service-title'>Lambda Function</div>
+      <div id='service-title'>{lambdaFunction.FunctionName}</div>
       <Popover
         id='lambda-function-details'
         sx={{
