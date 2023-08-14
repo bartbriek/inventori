@@ -51,7 +51,7 @@ function ResourcesScreen({ regionFlag }) {
               return (
                 <ResourceComponent
                   key={bucket.BucketName}
-                  resourceName={bucket.Name}
+                  resourceType={bucket.resourceType}
                   imageSrc='https://res.cloudinary.com/practicaldev/image/fetch/s--o9jchbR7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://day-journal.com/memo/images/logo/aws/s3.png'
                 />
               );
@@ -63,7 +63,7 @@ function ResourcesScreen({ regionFlag }) {
                 <ResourceComponent
                   key={lambdaFunction.FunctionArn}
                   imageSrc='https://upload.wikimedia.org/wikipedia/commons/5/5c/Amazon_Lambda_architecture_logo.svg'
-                  resourceName={lambdaFunction.FunctionName}
+                  resourceType={lambdaFunction.resourceType}
                 />
               );
             })}
@@ -74,7 +74,7 @@ function ResourcesScreen({ regionFlag }) {
                 <ResourceComponent
                   key={table.TableArn}
                   imageSrc='https://upload.wikimedia.org/wikipedia/commons/f/fd/DynamoDB.png'
-                  resourceName={table.TableName}
+                  resourceType={table.resourceType}
                 />
               );
             })}

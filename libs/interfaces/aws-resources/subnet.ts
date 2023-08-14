@@ -1,11 +1,12 @@
 import IResourceTag from './resource-tag';
 
 export default interface ISubnet {
-  SubnetId: string;
-  SubnetName: string;
-  SubnetType: string;
-  SubnetGroup: Array<string>;
-  AvailabilityZone: string;
-  CidrBlock: string;
-  Tags: Array<IResourceTag>;
+  resourceName: string;
+  resourceType: string;
+  subnetId: string;
+  subnetType: string;
+  subnetGroup: Array<string>;
+  availabilityZone: string;
+  cidrBlock: string;
+  tags: Array<IResourceTag>;
 }

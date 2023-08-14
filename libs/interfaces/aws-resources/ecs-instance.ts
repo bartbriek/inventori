@@ -1,4 +1,6 @@
 export default interface IEcsInstance {
+  resourceName: string;
+  resourceType: string;
   ecsClusterName: string;
   serviceName: string;
   launchType: string;

@@ -1,15 +1,16 @@
 import IResourceTag from './resource-tag';
 
 export default interface IRdsInstance {
-  Name: string;
-  ClusterName: string;
-  DBSubnetIds: Array<string>;
-  DBSubnetGroup: Array<string>;
-  AvailabilityZone: string;
-  Endpoint: string;
-  Port: number;
-  Engine: string;
-  EngineVersion: string;
-  MasterUsername: string;
-  Tags: Array<IResourceTag>;
+  resourceName: string;
+  resourceType: string;
+  clusterName: string;
+  dbSubnetIds: Array<string>;
+  dbSubnetGroup: Array<string>;
+  availabilityZone: string;
+  endpoint: string;
+  port: number;
+  engine: string;
+  engineVersion: string;
+  masterUsername: string;
+  tags: Array<IResourceTag>;
 }

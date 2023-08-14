@@ -1,4 +1,5 @@
 export default interface IDynamodbTable {
-  TableName: string;
-  TableArn: string;
+  resourceName: string;
+  resourceType: string;
+  tableArn: string;
 }
