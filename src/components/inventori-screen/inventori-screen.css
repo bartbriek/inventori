@@ -1,20 +1,8 @@
 .container {
   display: grid;
-  height: 100vh;
-  grid-template-columns: 200px auto;
+  grid-template-rows: 80px auto;
 }
 
-.resources-container {
-  display: grid;
-  width: auto;
-}
-
-#menu {
-  background-color: rgb(34, 43, 54);
-}
-
-#region {
-  margin: 10px;
-  padding: 20px;
-  border: 1px solid rgb(0, 0, 0, 0.5);
+body {
+  font-family: Avenir, Arial, Helvetica, sans-serif;
 }

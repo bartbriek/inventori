@@ -1,23 +1,18 @@
 import './inventori-screen.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Menu from './menu/menu';
 import ResourcesScreen from './resources-screen/resources-screen';
+import Header from './header/header';
+import { BASE_URL } from '../../baseConfig';
 
-function InventoriScreen({ setAuthorization }) {
+function InventoriScreen() {
   const [accountId, setAccountId] = useState('');
   const [region, setSelectedRegion] = useState('eu-west-1');
   const [regionFlag, setRegionFlag] = useState(false);
 
-  // Region Selection
-  const handleSelectChange = async event => {
-    setRegionFlag(false);
-    setSelectedRegion(event.target.value);
-  };
-
   useEffect(() => {
     axios
-      .get('http://localhost:3010/accounts')
+      .get(`${BASE_URL}/accounts`)
       .then(response => {
         setAccountId(response.data.body.account_id);
       })
@@ -28,16 +23,8 @@ function InventoriScreen({ setAuthorization }) {
 
   return (
     <div className='container'>
-      <Menu
-        accountId={accountId}
-        region={region}
-        handleSelectChange={handleSelectChange}
-        setRegionFlag={setRegionFlag}
-        setAuthorization={setAuthorization}
-      />
-      <div className='resources-container'>
-        {regionFlag ? <ResourcesScreen regionFlag={regionFlag} /> : null}
-      </div>
+      <Header accountId={accountId} region={region} />
+      <ResourcesScreen />
     </div>
   );
 }

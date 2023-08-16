@@ -9,6 +9,14 @@ import { getCurrentAccountId } from './sts.js';
 import { fetchAwsResources } from './resources.js';
 import { createGetResponse, successMessages } from './common/success.js';
 import { determineCorrelations } from './correlations.js';
+import fetchVpcs from './aws-resources/vpcs.js';
+import fetchS3Buckets from './aws-resources/s3.js';
+import fetchSubnets from './aws-resources/subnets.js';
+import fetchRoutes from './aws-resources/routes.js';
+import fetchEc2Instances from './aws-resources/ec2.js';
+import fetchRdsInstances from './aws-resources/rds.js';
+import fetchLambdaFunctions from './aws-resources/lambda.js';
+import fetchDynamoDbTables from './aws-resources/dynamodb.js';
 
 // CONSTANTS
 const app = express();
@@ -75,23 +83,13 @@ app.get('/accounts', async (req, res) => {
   await getCurrentAccountId(res);
 });
 
-app.get('/resources', async (req, res) => {
-  // fetch resources
-  const resources = await fetchAwsResources(awsRegion);
-
-  // Make the connections
-  const responseBody = determineCorrelations(resources);
-  res.status(200);
-  res.send(createGetResponse(responseBody));
-});
-
 app.get('/region/availability-zones', async (req, res) => {
   const ec2 = new AWS.EC2({ region: awsRegion });
   const availabilityZonesData = await ec2.describeAvailabilityZones().promise();
 
   const availabilityZones = () => {
     const zones = [];
-    availabilityZonesData.AvailabilityZones.forEach(zone => {
+    availabilityZonesData.AvailabilityZones?.forEach(zone => {
       if (!zones.includes(zone.ZoneName)) {
         zones.push(zone.ZoneName);
       }
@@ -107,6 +105,65 @@ app.put('/region/:regionId', (req, res) => {
   awsRegion = req.params.regionId;
   res.status(successMessages.PutSuccess.statusCode);
   res.send(successMessages.PutSuccess);
+});
+
+// Resources endpoints
+app.get('/resources', async (req, res) => {
+  // fetch resources
+  const resources = await fetchAwsResources(awsRegion);
+
+  // Make the connections
+  const responseBody = determineCorrelations(resources);
+  res.status(200);
+  res.send(createGetResponse(responseBody));
+});
+
+app.get('/resources/s3buckets', async (req, res) => {
+  const buckets = await fetchS3Buckets(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(buckets));
+});
+
+app.get('/resources/vpcs', async (req, res) => {
+  const vpcs = await fetchVpcs(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(vpcs));
+});
+
+app.get('/resources/subnets', async (req, res) => {
+  const subnets = await fetchSubnets(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(subnets));
+});
+
+app.get('/resources/routes', async (req, res) => {
+  const routes = await fetchRoutes(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(routes));
+});
+
+app.get('/resources/ec2Instances', async (req, res) => {
+  const ec2Instances = await fetchEc2Instances(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(ec2Instances));
+});
+
+app.get('/resources/rdsInstances', async (req, res) => {
+  const rdsInstances = await fetchRdsInstances(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(rdsInstances));
+});
+
+app.get('/resources/lambdas', async (req, res) => {
+  const lambdaFunctions = await fetchLambdaFunctions(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(lambdaFunctions));
+});
+
+app.get('/resources/dynamodb', async (req, res) => {
+  const dynamoDbTables = await fetchDynamoDbTables(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(dynamoDbTables));
 });
 
 // MAIN

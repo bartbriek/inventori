@@ -1,108 +1,59 @@
 import './subnet.css';
-import React, { useState } from 'react';
-import Ec2Instance from '../ec2/ec2-instance';
-import EcsInstance from '../ecs-instance/ecs-instance';
-import Rds from '../rds/rds';
-import { Popover } from '@mui/material';
+import React from 'react';
+import Resource from '../resource-component/resource-component';
 
-function Subnet({ subnet }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handlePopoverOpen = event => {
-    setAnchorEl(event.currentTarget);
+function Subnet({ subnet, subnetType, ec2Instances, rdsInstances }) {
+  const getSubnetName = () => {
+    let subnetName = subnet.subnetId;
+    subnet.tags.forEach(tag => {
+      if (tag.Key === 'Name') {
+        subnetName = tag.Value;
+        return;
+      }
+    });
+    return subnetName;
   };
 
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
+  const getInstanceName = instance => {
+    let instanceName = instance.InstanceId;
+    instance.Tags.forEach(tag => {
+      if (tag.Key === 'Name') {
+        instanceName = tag.Value;
+        return;
+      }
+    });
+    return instanceName;
   };
-
-  const open = Boolean(anchorEl);
 
   return (
-    <div
-      id='subnet-name'
-      onMouseOver={handlePopoverOpen}
-      onMouseOut={handlePopoverClose}
-    >
-      {subnet.SubnetName}
-      <div className={`subnet-container ${subnet.SubnetType}`}>
-        <div>
-          {subnet.Ec2Instances.map(ec2Instance => {
-            let instance = <></>;
-            if (ec2Instance.InstanceId) {
-              instance = (
-                <Ec2Instance
-                  key={ec2Instance.InstanceId}
-                  instance={ec2Instance}
-                />
-              );
-            }
-            return instance;
-          })}
-          {subnet.EcsInstances.map(ecsInstance => {
-            let instance = <></>;
-            if (ecsInstance.subnetId === subnet.SubnetId) {
-              instance = (
-                <EcsInstance key={ecsInstance.TaskArn} instance={ecsInstance} />
-              );
-            }
-            return instance;
-          })}
-        </div>
-        <Popover
-          id='subnet-details'
-          sx={{
-            pointerEvents: 'none',
-            fontSize: '8px',
-            padding: 20,
-            boxShadow: 1,
-          }}
-          open={open}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          onClose={handlePopoverClose}
-          disableRestoreFocus
-        >
-          <div>
-            <p>
-              <strong>Name: </strong>
-              <br />
-              {subnet.SubnetName}
-            </p>
-            <p>
-              <strong>Subnet Id </strong>
-              <br />
-              {subnet.SubnetId}
-            </p>
-            <p>
-              <strong>Subnet Availability Zone </strong>
-              <br />
-              {subnet.AvailabilityZone}
-            </p>
-            <p>
-              <strong>CIDR Block: </strong>
-              <br />
-              {subnet.CidrBlock}
-            </p>
-          </div>
-        </Popover>
-        <div>
-          {subnet.RdsInstances.map(rdsInstance => {
+    <div className={`${subnetType} subnet`}>
+      <strong>{subnetType.split('-')[0]}</strong>
+      {getSubnetName()}
+      <div>
+        {ec2Instances.map(instance => {
+          if (instance.SubnetId === subnet.subnetId) {
             return (
-              <Rds
-                key={rdsInstance.DBInstanceIdentifier}
-                instance={rdsInstance}
+              <Resource
+                key={instance.InstanceId}
+                resourceType={getInstanceName(instance)}
+                imageName='ec2InstanceLogo'
               />
             );
-          })}
-        </div>
+          }
+        })}
+      </div>
+      <div>
+        {rdsInstances.map(rdsInstance => {
+          if (rdsInstance.SubnetIds.includes(subnet.subnetId)) {
+            return (
+              <Resource
+                key={rdsInstance.DBInstanceIdentifier}
+                resourceType={rdsInstance.DBInstanceIdentifier}
+                imageName='rdsInstanceLogo'
+              />
+            );
+          }
+        })}
       </div>
     </div>
   );

@@ -1,5 +1,34 @@
 .availability-zone {
-  padding: 20px;
+  padding: 10px;
+  margin: 10px 0px 10px 0px;
+  border: 1px dashed rgba(0, 0, 0, 0.5);
+  flex: 1;
+  font-size: 12px;
+}
+
+.subnets-container {
   margin: 5px;
-  background-color: rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border: 1px solid rgba(46, 148, 13, 0.2);
+  display: grid;
+  grid-template-columns: repeat(1, auto);
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+}
+
+.public-subnets-container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, auto);
+  min-width: auto;
+  margin: 5px;
+  font-size: 9px;
+}
+
+.private-subnets-container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, auto);
+  margin: 5px;
+  font-size: 9px;
 }

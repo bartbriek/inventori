@@ -1,19 +1,27 @@
-.grid {
+#region-container {
+  margin: 20px 20px 20px 40px; /* 40 px is equal to logo */
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  place-items: center;
+  grid-template-rows: auto;
+  border: 1px solid rgb(0, 0, 0, 0.2);
 }
 
-.availability-zones-container {
+.region-resources-container {
   display: flex;
-  grid-area: 1 / 1;
+  margin-bottom: 60px;
 }
 
-.vpcs {
-  grid-area: 1 / 1;
+.lambdaFunctions-container {
+  margin: 20px 20px 20px 40px;
+  display: flex;
+  gap: 40px;
 }
 
-#spinner-container {
-  margin-top: 400px;
+.s3Bucket-container {
+  margin: 20px;
+  display: flex;
+}
+
+.dynamodb-container {
+  display: flex;
 }

@@ -1,45 +1,38 @@
 import './vpc.css';
 import React from 'react';
-import Subnet from '../subnet/subnet';
+import AvailabilityZone from '../availability-zone/availability-zone';
 
-function Vpc({ vpc }) {
-  const subnets = vpc.Subnets.sort();
-  const ec2Instances = [];
-
+function Vpc({ vpc, subnets, routeTables, ec2Instances, rdsInstances }) {
   const getVpcName = () => {
-    let vpcName = '';
+    let vpcName = vpc.VpcId;
     vpc.Tags.forEach(tag => {
       if (tag.Key === 'Name') {
         vpcName = tag.Value;
-      } else {
-        vpcName = vpc.VpcId;
       }
     });
     return vpcName;
   };
 
-  subnets.forEach(subnet => {
-    ec2Instances.push(subnet.Ec2Instances);
-  });
-
   return (
     <div className='vpc'>
       <div>
-        <img
-          className='services-logo'
-          src='https://logowik.com/content/uploads/images/aws-vpc2188.logowik.com.webp'
-          alt='AWS VPC logo'
-        />
-        <strong>VPC {getVpcName()}</strong>
+        <label>
+          <strong>VPC {getVpcName()}</strong>
+        </label>
+        <br />
+        {vpc.CidrBlock}
       </div>
-      {vpc.CidrBlock}
-      <div className='subnets-container'>
-        {subnets.map(subnet => {
+      <div className='availability-zones'>
+        {vpc.AvailabilityZones.map(az => {
           return (
-            <Subnet
-              key={subnet.SubnetId}
-              subnet={subnet}
-              instances={ec2Instances}
+            <AvailabilityZone
+              key={az}
+              zone={az}
+              subnets={subnets}
+              routeTables={routeTables}
+              ec2Instances={ec2Instances}
+              rdsInstances={rdsInstances}
+              vpcId={vpc.VpcId}
             />
           );
         })}

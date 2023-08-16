@@ -1,8 +1,17 @@
-.subnet-container {
-    margin: 5px;
-    padding: 20px;
-    border: 1px solid rgba(46, 148, 13, 0.2);
-    display: flex;
-    flex-direction: row;
-    min-height: 300px;
+.subnet {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.public-subnet {
+  border: 2px dashed lightgreen;
+  padding: 10px;
+  margin: 5px;
+}
+
+.private-subnet {
+  border: 2px dashed darkred;
+  padding: 10px;
+  margin: 5px;
 }
