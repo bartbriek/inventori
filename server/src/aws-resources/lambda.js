@@ -17,7 +17,7 @@ async function fetchLambdaFunctions(awsRegion) {
       const lambdaDataResponse = await lambda.listFunctions(params).promise();
 
       lambdaFunctions.push(...lambdaDataResponse.Functions);
-      nextMarker = result.NextMarker;
+      nextMarker = lambdaDataResponse.NextMarker;
     } while (nextMarker);
 
     // Describe each lambda function for more detailed information

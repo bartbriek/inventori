@@ -17,6 +17,7 @@ import fetchEc2Instances from './aws-resources/ec2.js';
 import fetchRdsInstances from './aws-resources/rds.js';
 import fetchLambdaFunctions from './aws-resources/lambda.js';
 import fetchDynamoDbTables from './aws-resources/dynamodb.js';
+import fetchEcsResources from './aws-resources/ecs.js';
 
 // CONSTANTS
 const app = express();
@@ -118,12 +119,26 @@ app.get('/resources', async (req, res) => {
   res.send(createGetResponse(responseBody));
 });
 
+// Storage related endpoints
 app.get('/resources/s3buckets', async (req, res) => {
   const buckets = await fetchS3Buckets(awsRegion);
   res.status(200);
   res.send(createGetResponse(buckets));
 });
 
+app.get('/resources/rdsInstances', async (req, res) => {
+  const rdsInstances = await fetchRdsInstances(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(rdsInstances));
+});
+
+app.get('/resources/dynamodb', async (req, res) => {
+  const dynamoDbTables = await fetchDynamoDbTables(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(dynamoDbTables));
+});
+
+// Networking related endpoints
 app.get('/resources/vpcs', async (req, res) => {
   const vpcs = await fetchVpcs(awsRegion);
   res.status(200);
@@ -142,28 +157,23 @@ app.get('/resources/routes', async (req, res) => {
   res.send(createGetResponse(routes));
 });
 
+// Compute related endpoints
 app.get('/resources/ec2Instances', async (req, res) => {
   const ec2Instances = await fetchEc2Instances(awsRegion);
   res.status(200);
   res.send(createGetResponse(ec2Instances));
 });
 
-app.get('/resources/rdsInstances', async (req, res) => {
-  const rdsInstances = await fetchRdsInstances(awsRegion);
+app.get('/resources/ecsInstances', async (req, res) => {
+  const ecsInstances = await fetchEcsResources(awsRegion);
   res.status(200);
-  res.send(createGetResponse(rdsInstances));
+  res.send(createGetResponse(ecsInstances));
 });
 
 app.get('/resources/lambdas', async (req, res) => {
   const lambdaFunctions = await fetchLambdaFunctions(awsRegion);
   res.status(200);
   res.send(createGetResponse(lambdaFunctions));
-});
-
-app.get('/resources/dynamodb', async (req, res) => {
-  const dynamoDbTables = await fetchDynamoDbTables(awsRegion);
-  res.status(200);
-  res.send(createGetResponse(dynamoDbTables));
 });
 
 // MAIN
