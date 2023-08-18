@@ -8,6 +8,7 @@ function AvailabilityZone({
   subnets,
   routeTables,
   ec2Instances,
+  ecsInstances,
   rdsInstances,
 }) {
   const [publicSubnets, setPublicSubnets] = useState([]);
@@ -83,6 +84,7 @@ function AvailabilityZone({
                     subnet={subnet}
                     subnetType='public-subnet'
                     ec2Instances={ec2Instances}
+                    ecsInstances={ecsInstances}
                     rdsInstances={rdsInstances}
                   />
                 );
@@ -96,6 +98,7 @@ function AvailabilityZone({
                     subnet={subnet}
                     subnetType='private-subnet'
                     ec2Instances={ec2Instances}
+                    ecsInstances={ecsInstances}
                     rdsInstances={rdsInstances}
                   />
                 );

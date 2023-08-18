@@ -10,6 +10,7 @@ function ResourcesScreen() {
   const [vpcs, setVpcs] = useState([]);
   const [routeTables, setRouteTables] = useState([]);
   const [ec2Instances, setEc2Instances] = useState([]);
+  const [ecsInstances, setEcsInstances] = useState([]);
   const [rdsInstances, setRdsInstances] = useState([]);
   const [lambdaFunctions, setLambdaFunctions] = useState([]);
   const [s3Buckets, setS3Buckets] = useState([]);
@@ -31,6 +32,10 @@ function ResourcesScreen() {
 
     axios.get(`${BASE_URL}/resources/ec2Instances`).then(ec2Response => {
       setEc2Instances(ec2Response.data.body);
+    });
+
+    axios.get(`${BASE_URL}/resources/ecsInstances`).then(ecsResponse => {
+      setEcsInstances(ecsResponse.data.body);
     });
 
     axios.get(`${BASE_URL}/resources/rdsInstances`).then(rdsResponse => {
@@ -97,6 +102,7 @@ function ResourcesScreen() {
               subnets={subnets}
               routeTables={routeTables}
               ec2Instances={ec2Instances}
+              ecsInstances={ecsInstances}
               rdsInstances={rdsInstances}
             />
           );

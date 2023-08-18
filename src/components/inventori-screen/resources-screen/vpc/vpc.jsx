@@ -2,7 +2,14 @@ import './vpc.css';
 import React from 'react';
 import AvailabilityZone from '../availability-zone/availability-zone';
 
-function Vpc({ vpc, subnets, routeTables, ec2Instances, rdsInstances }) {
+function Vpc({
+  vpc,
+  subnets,
+  routeTables,
+  ec2Instances,
+  ecsInstances,
+  rdsInstances,
+}) {
   const getVpcName = () => {
     let vpcName = vpc.VpcId;
     vpc.Tags.forEach(tag => {
@@ -31,6 +38,7 @@ function Vpc({ vpc, subnets, routeTables, ec2Instances, rdsInstances }) {
               subnets={subnets}
               routeTables={routeTables}
               ec2Instances={ec2Instances}
+              ecsInstances={ecsInstances}
               rdsInstances={rdsInstances}
               vpcId={vpc.VpcId}
             />

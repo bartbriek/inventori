@@ -2,7 +2,13 @@ import './subnet.css';
 import React from 'react';
 import Resource from '../resource-component/resource-component';
 
-function Subnet({ subnet, subnetType, ec2Instances, rdsInstances }) {
+function Subnet({
+  subnet,
+  subnetType,
+  ec2Instances,
+  ecsInstances,
+  rdsInstances,
+}) {
   const getSubnetName = () => {
     let subnetName = subnet.subnetId;
     subnet.tags.forEach(tag => {
@@ -25,6 +31,18 @@ function Subnet({ subnet, subnetType, ec2Instances, rdsInstances }) {
     return instanceName;
   };
 
+  const getTaskSubnetId = task => {
+    let taskSubnetId = '';
+    for (const attachment of task.attachments) {
+      for (const detail of attachment.details) {
+        if (detail.name === 'subnetId') {
+          taskSubnetId = detail.value;
+        }
+      }
+    }
+    return taskSubnetId;
+  };
+
   return (
     <div className={`${subnetType} subnet`}>
       <strong>{subnetType.split('-')[0]}</strong>
@@ -40,6 +58,25 @@ function Subnet({ subnet, subnetType, ec2Instances, rdsInstances }) {
               />
             );
           }
+        })}
+      </div>
+      <div className='ecs-container'>
+        {ecsInstances.map(ecsInstance => {
+          for (const service of ecsInstance.Services) {
+            for (const task of service.Tasks) {
+              const taskSubnetId = getTaskSubnetId(task);
+              if (subnet.subnetId === taskSubnetId) {
+                return (
+                  <Resource
+                    key={ecsInstances.clusterArn}
+                    resourceType={task.taskDefinitionArn.split('/')[1]}
+                    imageName='fargateLogo'
+                  />
+                );
+              }
+            }
+          }
+          return null;
         })}
       </div>
       <div>
