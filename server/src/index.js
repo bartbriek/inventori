@@ -18,6 +18,8 @@ import fetchRdsInstances from './aws-resources/rds.js';
 import fetchLambdaFunctions from './aws-resources/lambda.js';
 import fetchDynamoDbTables from './aws-resources/dynamodb.js';
 import fetchEcsResources from './aws-resources/ecs.js';
+import fetchInternetGateways from './aws-resources/internet-gateways.js';
+import fetchNatGateways from './aws-resources/nat-gateways.js';
 
 // CONSTANTS
 const app = express();
@@ -155,6 +157,18 @@ app.get('/resources/routes', async (req, res) => {
   const routes = await fetchRoutes(awsRegion);
   res.status(200);
   res.send(createGetResponse(routes));
+});
+
+app.get('/resources/internet-gateways', async (req, res) => {
+  const internetGateways = await fetchInternetGateways(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(internetGateways));
+});
+
+app.get('/resources/nat-gateways', async (req, res) => {
+  const natGateways = await fetchNatGateways(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(natGateways));
 });
 
 // Compute related endpoints

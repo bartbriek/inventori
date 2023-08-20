@@ -24,7 +24,7 @@ function InventoriScreen() {
   return (
     <div className='container'>
       <Header accountId={accountId} region={region} />
-      <ResourcesScreen />
+      {accountId ? <ResourcesScreen /> : <h1>Need credentials...</h1>}
     </div>
   );
 }

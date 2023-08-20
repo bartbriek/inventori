@@ -1,17 +1,19 @@
 .subnet {
-  margin: 5px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .public-subnet {
-  border: 2px dashed lightgreen;
+  background-color: #e3ecd5;
+  color: #1bb156;
   padding: 10px;
   margin: 5px;
 }
 
 .private-subnet {
-  border: 2px dashed darkred;
+  background-color: #ceeaf2;
+  color: #1871c1;
   padding: 10px;
   margin: 5px;
 }

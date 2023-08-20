@@ -1,5 +1,5 @@
 .service {
-  margin: 5px;
+  margin: 5px 5px 15px 5px;
   padding: 20px;
   font-size: 8px;
   height: 20px;
@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+  color: #000;
 }
 
 .services-logo {
@@ -19,4 +20,5 @@
   padding: 5px;
   align-self: center;
   text-align: center;
+  min-width: 50px;
 }

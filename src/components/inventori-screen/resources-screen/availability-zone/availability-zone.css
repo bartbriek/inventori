@@ -1,7 +1,7 @@
 .availability-zone {
   padding: 10px;
   margin: 10px 0px 10px 0px;
-  border: 1px dashed rgba(0, 0, 0, 0.5);
+  border: 1.5px dashed #167cc5;
   flex: 1;
   font-size: 12px;
 }
@@ -9,7 +9,7 @@
 .subnets-container {
   margin: 5px;
   padding: 20px;
-  border: 1px solid rgba(46, 148, 13, 0.2);
+  /* border: 1px solid rgba(46, 148, 13, 0.2); */
   display: grid;
   grid-template-columns: repeat(1, auto);
   grid-template-rows: repeat(2, auto);

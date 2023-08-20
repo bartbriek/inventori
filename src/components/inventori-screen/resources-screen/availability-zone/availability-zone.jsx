@@ -6,6 +6,7 @@ function AvailabilityZone({
   zone,
   vpcId,
   subnets,
+  natGateways,
   routeTables,
   ec2Instances,
   ecsInstances,
@@ -83,6 +84,7 @@ function AvailabilityZone({
                     key={subnet.subnetId}
                     subnet={subnet}
                     subnetType='public-subnet'
+                    natGateways={natGateways}
                     ec2Instances={ec2Instances}
                     ecsInstances={ecsInstances}
                     rdsInstances={rdsInstances}
@@ -97,6 +99,7 @@ function AvailabilityZone({
                     key={subnet.subnetId}
                     subnet={subnet}
                     subnetType='private-subnet'
+                    natGateways={natGateways}
                     ec2Instances={ec2Instances}
                     ecsInstances={ecsInstances}
                     rdsInstances={rdsInstances}

@@ -5,6 +5,7 @@ import Resource from '../resource-component/resource-component';
 function Subnet({
   subnet,
   subnetType,
+  natGateways,
   ec2Instances,
   ecsInstances,
   rdsInstances,
@@ -18,6 +19,16 @@ function Subnet({
       }
     });
     return subnetName;
+  };
+
+  const getNatGatewayName = ng => {
+    let ngName = ng.NatGatewayId;
+    ng.Tags.forEach(tag => {
+      if (tag.Key === 'Name') {
+        ngName = tag.Value;
+      }
+    });
+    return ngName;
   };
 
   const getInstanceName = instance => {
@@ -47,6 +58,20 @@ function Subnet({
     <div className={`${subnetType} subnet`}>
       <strong>{subnetType.split('-')[0]}</strong>
       {getSubnetName()}
+      <div className='nat-gateways-container'>
+        {natGateways.map(natGateway => {
+          if (natGateway.SubnetId === subnet.subnetId) {
+            return (
+              <Resource
+                key={natGateway.NatGatewayId}
+                resourceType={getNatGatewayName(natGateway)}
+                imageName='natGatewayLogo'
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
       <div>
         {ec2Instances.map(instance => {
           if (instance.SubnetId === subnet.subnetId) {

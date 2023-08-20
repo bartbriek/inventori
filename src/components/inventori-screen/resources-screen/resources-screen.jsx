@@ -9,6 +9,8 @@ function ResourcesScreen() {
   const [subnets, setSubnets] = useState([]);
   const [vpcs, setVpcs] = useState([]);
   const [routeTables, setRouteTables] = useState([]);
+  const [internetGateways, setInternetGateways] = useState([]);
+  const [natGateways, setNatGateways] = useState([]);
   const [ec2Instances, setEc2Instances] = useState([]);
   const [ecsInstances, setEcsInstances] = useState([]);
   const [rdsInstances, setRdsInstances] = useState([]);
@@ -28,6 +30,14 @@ function ResourcesScreen() {
 
     axios.get(`${BASE_URL}/resources/routes`).then(routesResponse => {
       setRouteTables(routesResponse.data.body);
+    });
+
+    axios.get(`${BASE_URL}/resources/internet-gateways`).then(iGResponse => {
+      setInternetGateways(iGResponse.data.body);
+    });
+
+    axios.get(`${BASE_URL}/resources/nat-gateways`).then(natGatewayResponse => {
+      setNatGateways(natGatewayResponse.data.body);
     });
 
     axios.get(`${BASE_URL}/resources/ec2Instances`).then(ec2Response => {
@@ -101,6 +111,8 @@ function ResourcesScreen() {
               vpc={vpc}
               subnets={subnets}
               routeTables={routeTables}
+              internetGateways={internetGateways}
+              natGateways={natGateways}
               ec2Instances={ec2Instances}
               ecsInstances={ecsInstances}
               rdsInstances={rdsInstances}

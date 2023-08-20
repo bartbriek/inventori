@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto;
-  border: 1px solid rgb(0, 0, 0, 0.2);
+  border: 1.5px solid rgb(0, 0, 0);
 }
 
 .region-resources-container {
