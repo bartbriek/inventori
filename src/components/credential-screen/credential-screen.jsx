@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
+import { BASE_URL } from '../../baseConfig';
 
-function CredentialScreen({ setAuthorization }) {
+function CredentialScreen({ setAccountId }) {
   const [keys, setKeys] = useState({
     accessKey: '',
     secretKey: '',
@@ -15,7 +16,7 @@ function CredentialScreen({ setAuthorization }) {
     event.preventDefault();
     try {
       await axios.post(
-        'http://localhost:3010/credentials',
+        `${BASE_URL}/credentials`,
         {
           access_key: keys.accessKey,
           secret_key: keys.secretKey,
@@ -27,7 +28,9 @@ function CredentialScreen({ setAuthorization }) {
       );
 
       // Authorization is now performed and user will see the application.
-      setAuthorization(true);
+
+      const accountId = await axios.get(`${BASE_URL}/accounts`);
+      setAccountId(accountId.data.body.account_id);
     } catch (err) {
       console.log(err);
     }

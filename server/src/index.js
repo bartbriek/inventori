@@ -106,6 +106,7 @@ app.get('/region/availability-zones', async (req, res) => {
 
 app.put('/region/:regionId', (req, res) => {
   awsRegion = req.params.regionId;
+  console.log(awsRegion);
   res.status(successMessages.PutSuccess.statusCode);
   res.send(successMessages.PutSuccess);
 });

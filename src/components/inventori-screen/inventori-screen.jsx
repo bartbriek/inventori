@@ -2,13 +2,13 @@ import './inventori-screen.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ResourcesScreen from './resources-screen/resources-screen';
+import CredentialScreen from '../credential-screen/credential-screen';
 import Header from './header/header';
 import { BASE_URL } from '../../baseConfig';
 
 function InventoriScreen() {
   const [accountId, setAccountId] = useState('');
   const [region, setSelectedRegion] = useState('eu-west-1');
-  const [regionFlag, setRegionFlag] = useState(false);
 
   useEffect(() => {
     axios
@@ -19,12 +19,21 @@ function InventoriScreen() {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [region]);
 
   return (
     <div className='container'>
-      <Header accountId={accountId} region={region} />
-      {accountId ? <ResourcesScreen /> : <h1>Need credentials...</h1>}
+      <Header
+        accountId={accountId}
+        region={region}
+        setAccountId={setAccountId}
+        setSelectedRegion={setSelectedRegion}
+      />
+      {accountId && region ? (
+        <ResourcesScreen region={region} />
+      ) : (
+        <CredentialScreen setAccountId={setAccountId} />
+      )}
     </div>
   );
 }

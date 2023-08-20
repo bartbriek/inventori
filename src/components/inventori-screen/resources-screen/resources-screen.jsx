@@ -5,7 +5,7 @@ import { BASE_URL } from '../../../baseConfig';
 import Vpc from './vpc/vpc';
 import ResourceComponent from './resource-component/resource-component';
 
-function ResourcesScreen() {
+function ResourcesScreen({ region }) {
   const [subnets, setSubnets] = useState([]);
   const [vpcs, setVpcs] = useState([]);
   const [routeTables, setRouteTables] = useState([]);
@@ -64,63 +64,67 @@ function ResourcesScreen() {
     axios.get(`${BASE_URL}/resources/dynamodb`).then(dynamodbResponse => {
       setDynamoDbTables(dynamodbResponse.data.body);
     });
-  }, []);
+  }, [region]);
 
   return (
-    <div id='region-container'>
-      <div className='region-resources-container'>
-        <div className='lambdaFunctions-container'>
-          {lambdaFunctions.map(lambdaFunction => {
-            return (
-              <ResourceComponent
-                key={lambdaFunction.Configuration.FunctionArn}
-                resourceType={lambdaFunction.Configuration.FunctionName}
-                imageName='lambdaFunctionLogo'
-              />
-            );
-          })}
+    <>
+      {region ? (
+        <div id='region-container'>
+          <div className='region-resources-container'>
+            <div className='lambdaFunctions-container'>
+              {lambdaFunctions.map(lambdaFunction => {
+                return (
+                  <ResourceComponent
+                    key={lambdaFunction.Configuration.FunctionArn}
+                    resourceType={lambdaFunction.Configuration.FunctionName}
+                    imageName='lambdaFunctionLogo'
+                  />
+                );
+              })}
+            </div>
+            <div className='s3Bucket-container'>
+              {s3Buckets.map(bucket => {
+                return (
+                  <ResourceComponent
+                    key={bucket.Name}
+                    resourceType={bucket.Name}
+                    imageName='s3BucketLogo'
+                  />
+                );
+              })}
+            </div>
+            <div className='dynamodb-container'>
+              {dynamoDbTables.map(table => {
+                return (
+                  <ResourceComponent
+                    key={table.TableId}
+                    resourceType={table.TableName}
+                    imageName='dynamoDbLogo'
+                  />
+                );
+              })}
+            </div>
+          </div>
+          <div className='vpcs-container'>
+            {vpcs.map(vpc => {
+              return (
+                <Vpc
+                  key={vpc.VpcId}
+                  vpc={vpc}
+                  subnets={subnets}
+                  routeTables={routeTables}
+                  internetGateways={internetGateways}
+                  natGateways={natGateways}
+                  ec2Instances={ec2Instances}
+                  ecsInstances={ecsInstances}
+                  rdsInstances={rdsInstances}
+                />
+              );
+            })}
+          </div>
         </div>
-        <div className='s3Bucket-container'>
-          {s3Buckets.map(bucket => {
-            return (
-              <ResourceComponent
-                key={bucket.Name}
-                resourceType={bucket.Name}
-                imageName='s3BucketLogo'
-              />
-            );
-          })}
-        </div>
-        <div className='dynamodb-container'>
-          {dynamoDbTables.map(table => {
-            return (
-              <ResourceComponent
-                key={table.TableId}
-                resourceType={table.TableName}
-                imageName='dynamoDbLogo'
-              />
-            );
-          })}
-        </div>
-      </div>
-      <div className='vpcs-container'>
-        {vpcs.map(vpc => {
-          return (
-            <Vpc
-              key={vpc.VpcId}
-              vpc={vpc}
-              subnets={subnets}
-              routeTables={routeTables}
-              internetGateways={internetGateways}
-              natGateways={natGateways}
-              ec2Instances={ec2Instances}
-              ecsInstances={ecsInstances}
-              rdsInstances={rdsInstances}
-            />
-          );
-        })}
-      </div>
-    </div>
+      ) : null}
+    </>
   );
 }
 
