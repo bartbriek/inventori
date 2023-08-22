@@ -153,9 +153,13 @@ function ResourcesScreen({ region }) {
           />
         </div>
       ) : (
-        <div id='region-container'>
-          <div className='region-resources-container'>
-            <Typography style={{ marginLeft: '10px' }}>{region}</Typography>
+        <>
+          <div className='global-resources-container'>
+            <Typography
+              style={{ margin: '20px 0px 0px 20px', fontWeight: 'bold' }}
+            >
+              Global
+            </Typography>
             <div className='iam-users-container'></div>
             <div className='iam-roles-container'></div>
             <div className='cloudfront-container'>
@@ -165,17 +169,6 @@ function ResourcesScreen({ region }) {
                     key={distribution.ID}
                     resourceType={distribution.AliasICPRecordals[0].CNAME}
                     imageName='cloudfrontDistributionLogo'
-                  />
-                );
-              })}
-            </div>
-            <div className='lambdaFunctions-container'>
-              {lambdaFunctions.map(lambdaFunction => {
-                return (
-                  <ResourceComponent
-                    key={lambdaFunction.Configuration.FunctionArn}
-                    resourceType={lambdaFunction.Configuration.FunctionName}
-                    imageName='lambdaFunctionLogo'
                   />
                 );
               })}
@@ -191,36 +184,57 @@ function ResourcesScreen({ region }) {
                 );
               })}
             </div>
-            <div className='dynamodb-container'>
-              {dynamoDbTables.map(table => {
+          </div>
+
+          <div id='region-container'>
+            <div className='region-resources-container'>
+              <Typography
+                style={{ margin: '20px 0px 0px 20px', fontWeight: 'bold' }}
+              >
+                {region}
+              </Typography>
+              <div className='lambdaFunctions-container'>
+                {lambdaFunctions.map(lambdaFunction => {
+                  return (
+                    <ResourceComponent
+                      key={lambdaFunction.Configuration.FunctionArn}
+                      resourceType={lambdaFunction.Configuration.FunctionName}
+                      imageName='lambdaFunctionLogo'
+                    />
+                  );
+                })}
+              </div>
+              <div className='dynamodb-container'>
+                {dynamoDbTables.map(table => {
+                  return (
+                    <ResourceComponent
+                      key={table.TableId}
+                      resourceType={table.TableName}
+                      imageName='dynamoDbLogo'
+                    />
+                  );
+                })}
+              </div>
+            </div>
+            <div className='vpcs-container'>
+              {vpcs.map(vpc => {
                 return (
-                  <ResourceComponent
-                    key={table.TableId}
-                    resourceType={table.TableName}
-                    imageName='dynamoDbLogo'
+                  <Vpc
+                    key={vpc.VpcId}
+                    vpc={vpc}
+                    subnets={subnets}
+                    routeTables={routeTables}
+                    internetGateways={internetGateways}
+                    natGateways={natGateways}
+                    ec2Instances={ec2Instances}
+                    ecsInstances={ecsInstances}
+                    rdsInstances={rdsInstances}
                   />
                 );
               })}
             </div>
           </div>
-          <div className='vpcs-container'>
-            {vpcs.map(vpc => {
-              return (
-                <Vpc
-                  key={vpc.VpcId}
-                  vpc={vpc}
-                  subnets={subnets}
-                  routeTables={routeTables}
-                  internetGateways={internetGateways}
-                  natGateways={natGateways}
-                  ec2Instances={ec2Instances}
-                  ecsInstances={ecsInstances}
-                  rdsInstances={rdsInstances}
-                />
-              );
-            })}
-          </div>
-        </div>
+        </>
       )}
     </>
   );

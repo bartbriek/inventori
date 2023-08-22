@@ -12,26 +12,35 @@
   flex-wrap: wrap;
 }
 
+.global-resources-container {
+  margin: 20px 20px 20px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1.5px solid rgb(0, 0, 0);
+}
+
 .lambdaFunctions-container {
   margin: 20px 20px 20px 40px;
   display: flex;
-  gap: 40px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .s3Bucket-container {
-  margin: 20px;
+  margin: 20px 20px 20px 40px;
   display: flex;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .iam-roles-container {
-  margin: 20px;
+  margin: 20px 20px 20px 40px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .dynamodb-container {
+  margin: 20px 20px 20px 40px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -41,7 +50,7 @@
 }
 
 .cloudfront-container {
-  margin: 20px 20px 0px 20px;
+  margin: 20px 20px 20px 40px;
   display: flex;
   flex-wrap: wrap;
 }
