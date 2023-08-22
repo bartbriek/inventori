@@ -20,6 +20,9 @@ import fetchDynamoDbTables from './aws-resources/dynamodb.js';
 import fetchEcsResources from './aws-resources/ecs.js';
 import fetchInternetGateways from './aws-resources/internet-gateways.js';
 import fetchNatGateways from './aws-resources/nat-gateways.js';
+import fetchIamUsers from './aws-resources/iam-users.js';
+import fetchIamRoles from './aws-resources/iam-roles.js';
+import fetchCloudfrontDistributions from './aws-resources/cloudfront.js';
 
 // CONSTANTS
 const app = express();
@@ -122,6 +125,19 @@ app.get('/resources', async (req, res) => {
   res.send(createGetResponse(responseBody));
 });
 
+// IAM ENDPOINTS
+app.get('/resources/iam-users', async (req, res) => {
+  const users = await fetchIamUsers(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(users));
+});
+
+app.get('/resources/iam-roles', async (req, res) => {
+  const roles = await fetchIamRoles(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(roles));
+});
+
 // Storage related endpoints
 app.get('/resources/s3buckets', async (req, res) => {
   const buckets = await fetchS3Buckets(awsRegion);
@@ -170,6 +186,12 @@ app.get('/resources/nat-gateways', async (req, res) => {
   const natGateways = await fetchNatGateways(awsRegion);
   res.status(200);
   res.send(createGetResponse(natGateways));
+});
+
+app.get('/resources/cloudfront', async (req, res) => {
+  const cloudfrontDistributions = await fetchCloudfrontDistributions(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(cloudfrontDistributions));
 });
 
 // Compute related endpoints

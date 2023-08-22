@@ -25,6 +25,12 @@
   flex-wrap: wrap;
 }
 
+.iam-roles-container {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .dynamodb-container {
   display: flex;
   flex-wrap: wrap;
@@ -32,4 +38,10 @@
 
 #progress-loader-container {
   margin: 300px 40px 0px 40px;
+}
+
+.cloudfront-container {
+  margin: 20px 20px 0px 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
