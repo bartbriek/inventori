@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { BASE_URL } from '../../../baseConfig';
 import Vpc from './vpc/vpc';
 import ResourceComponent from './resource-component/resource-component';
+import { LinearProgress, Typography } from '@mui/material';
 
 function ResourcesScreen({ region }) {
   const [subnets, setSubnets] = useState([]);
@@ -17,58 +18,118 @@ function ResourcesScreen({ region }) {
   const [lambdaFunctions, setLambdaFunctions] = useState([]);
   const [s3Buckets, setS3Buckets] = useState([]);
   const [dynamoDbTables, setDynamoDbTables] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  // amount of request we are doing to calculate the progress loader for resources screen.
+  let progressVariable = 0;
+  const resourcesRequestCount = 11;
+  const resourceRequestPercentage = 100 / resourcesRequestCount;
 
   useEffect(() => {
     // VPC resources
-    axios.get(`${BASE_URL}/resources/vpcs`).then(vpcResponse => {
-      setVpcs(vpcResponse.data.body);
-    });
+    const fetchResources = async () => {
+      await axios.get(`${BASE_URL}/resources/vpcs`).then(vpcResponse => {
+        setVpcs(vpcResponse.data.body);
+        progressVariable = progressVariable + resourceRequestPercentage;
+        setProgress(progressVariable);
+      });
 
-    axios.get(`${BASE_URL}/resources/subnets`).then(subnetResponse => {
-      setSubnets(subnetResponse.data.body);
-    });
+      await axios.get(`${BASE_URL}/resources/subnets`).then(subnetResponse => {
+        setSubnets(subnetResponse.data.body);
+        progressVariable = progressVariable + resourceRequestPercentage;
+        setProgress(progressVariable);
+      });
 
-    axios.get(`${BASE_URL}/resources/routes`).then(routesResponse => {
-      setRouteTables(routesResponse.data.body);
-    });
+      await axios.get(`${BASE_URL}/resources/routes`).then(routesResponse => {
+        setRouteTables(routesResponse.data.body);
+        progressVariable = progressVariable + resourceRequestPercentage;
+        setProgress(progressVariable);
+      });
 
-    axios.get(`${BASE_URL}/resources/internet-gateways`).then(iGResponse => {
-      setInternetGateways(iGResponse.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/internet-gateways`)
+        .then(iGResponse => {
+          setInternetGateways(iGResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
 
-    axios.get(`${BASE_URL}/resources/nat-gateways`).then(natGatewayResponse => {
-      setNatGateways(natGatewayResponse.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/nat-gateways`)
+        .then(natGatewayResponse => {
+          setNatGateways(natGatewayResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
 
-    axios.get(`${BASE_URL}/resources/ec2Instances`).then(ec2Response => {
-      setEc2Instances(ec2Response.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/ec2Instances`)
+        .then(ec2Response => {
+          setEc2Instances(ec2Response.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
 
-    axios.get(`${BASE_URL}/resources/ecsInstances`).then(ecsResponse => {
-      setEcsInstances(ecsResponse.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/ecsInstances`)
+        .then(ecsResponse => {
+          setEcsInstances(ecsResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
 
-    axios.get(`${BASE_URL}/resources/rdsInstances`).then(rdsResponse => {
-      setRdsInstances(rdsResponse.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/rdsInstances`)
+        .then(rdsResponse => {
+          setRdsInstances(rdsResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
 
-    // Global & regional resources
-    axios.get(`${BASE_URL}/resources/lambdas`).then(lambdasResponse => {
-      setLambdaFunctions(lambdasResponse.data.body);
-    });
+      // Global & regional resources
+      await axios.get(`${BASE_URL}/resources/lambdas`).then(lambdasResponse => {
+        setLambdaFunctions(lambdasResponse.data.body);
+        progressVariable = progressVariable + resourceRequestPercentage;
+        setProgress(progressVariable);
+      });
 
-    axios.get(`${BASE_URL}/resources/s3buckets`).then(bucketsResponse => {
-      setS3Buckets(bucketsResponse.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/s3buckets`)
+        .then(bucketsResponse => {
+          setS3Buckets(bucketsResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
 
-    axios.get(`${BASE_URL}/resources/dynamodb`).then(dynamodbResponse => {
-      setDynamoDbTables(dynamodbResponse.data.body);
-    });
+      await axios
+        .get(`${BASE_URL}/resources/dynamodb`)
+        .then(dynamodbResponse => {
+          setDynamoDbTables(dynamodbResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
+      setIsLoading(false);
+    };
+
+    setIsLoading(true);
+    fetchResources();
   }, [region]);
 
   return (
     <>
-      {region ? (
+      {isLoading ? (
+        <div id='progress-loader-container'>
+          <Typography>Fetching resources ...</Typography>
+          <LinearProgress
+            style={{
+              margin: '30px 0px 0px 0px',
+            }}
+            variant='determinate'
+            value={progress}
+          />
+        </div>
+      ) : (
         <div id='region-container'>
           <div className='region-resources-container'>
             <div className='lambdaFunctions-container'>
@@ -123,7 +184,7 @@ function ResourcesScreen({ region }) {
             })}
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 }

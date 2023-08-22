@@ -29,3 +29,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+#progress-loader-container {
+  margin: 300px 40px 0px 40px;
+}

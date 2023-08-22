@@ -1,7 +1,7 @@
 import './credential-screen.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, TextField } from '@mui/material';
+import { Box, InputLabel, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { BASE_URL } from '../../baseConfig';
 
@@ -28,7 +28,6 @@ function CredentialScreen({ setAccountId }) {
       );
 
       // Authorization is now performed and user will see the application.
-
       const accountId = await axios.get(`${BASE_URL}/accounts`);
       setAccountId(accountId.data.body.account_id);
     } catch (err) {
@@ -40,7 +39,6 @@ function CredentialScreen({ setAccountId }) {
     const { value, id } = event.target;
 
     setKeys(prevValue => {
-      console.log('here');
       if (id === 'input-access-key') {
         return {
           accessKey: value,
@@ -65,17 +63,27 @@ function CredentialScreen({ setAccountId }) {
 
   return (
     <div>
-      <Box id='box-credential-screen'>
+      <Box id='box-credential-screen' textAlign='center'>
+        <div>
+          <Typography id='credential-intro-text'>
+            Enter your AWS Credentials here for inventori to make API requests
+            on your behalf to the AWS API's to fetch resources running in your
+            AWS account. Use the Session Token in case of you have a Single Sign
+            On setup for your AWS environment.
+          </Typography>
+          <br />
+          <br />
+        </div>
         <form id='credential-screen' onSubmit={handleClick}>
           <TextField
             id='input-access-key'
-            label='Access Key'
+            placeholder='Access Key*'
             variant='standard'
             onChange={handleChange}
             value={keys.accessKey}
             multiline
             required
-            maxRows={5}
+            maxRows={1}
             fullWidth
           />
 
@@ -83,13 +91,13 @@ function CredentialScreen({ setAccountId }) {
 
           <TextField
             id='input-secret-key'
-            label='Secret Key'
+            placeholder='Secret Key*'
             variant='standard'
             onChange={handleChange}
             value={keys.secretKey}
             multiline
             required
-            maxRows={5}
+            maxRows={1}
             fullWidth
           />
 
@@ -97,23 +105,18 @@ function CredentialScreen({ setAccountId }) {
 
           <TextField
             id='input-session-token'
-            label='Session Token'
+            placeholder='Session Token'
             variant='standard'
             onChange={handleChange}
             value={keys.sessionToken}
             multiline
-            required
             maxRows={5}
             fullWidth
           />
 
           <br />
 
-          <Button
-            id='credentials-submit-button'
-            variant='contained'
-            type='submit'
-          >
+          <Button id='credentials-submit-button' variant='filled' type='submit'>
             Submit credentials
           </Button>
         </form>

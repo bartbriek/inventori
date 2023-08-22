@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import './resource-component.css';
 import React from 'react';
 
@@ -9,7 +10,9 @@ const ResourceComponent = ({ resourceType, imageName }) => {
         src={`/assets/${imageName}.png`}
         alt='Resource image logo'
       />
-      <label className='service-title'>{resourceType}</label>
+      <Typography style={{ fontSize: '8px' }} className='service-title'>
+        {resourceType}
+      </Typography>
     </div>
   );
 };
