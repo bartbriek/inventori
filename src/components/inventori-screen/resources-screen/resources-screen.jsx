@@ -156,8 +156,8 @@ function ResourcesScreen({ region }) {
         <div id='region-container'>
           <div className='region-resources-container'>
             <Typography style={{ marginLeft: '10px' }}>{region}</Typography>
-            <div className='iam-users-container'>{}</div>
-            <div className='iam-roles-container'>{}</div>
+            <div className='iam-users-container'></div>
+            <div className='iam-roles-container'></div>
             <div className='cloudfront-container'>
               {cloudfrontDistributions.map(distribution => {
                 return (

@@ -68,8 +68,21 @@ function CredentialScreen({ setAccountId }) {
           <Typography id='credential-intro-text'>
             Enter your AWS Credentials here for inventori to make API requests
             on your behalf to the AWS API's to fetch resources running in your
-            AWS account. Use the Session Token in case of you have a Single Sign
-            On setup for your AWS environment.
+            AWS account.
+            <br />
+            <br />
+            To get your session token:
+            <br />
+            1. SSO - Sign in to your management console and choose command line
+            access.
+            <br />
+            2. Assume a role that has suffient read access and perform the
+            following command in your terminal
+            <br />
+            <br />
+            <span className='code-block'>
+              aws sts get-session-token –duration-seconds 129600
+            </span>
           </Typography>
           <br />
           <br />
@@ -110,13 +123,22 @@ function CredentialScreen({ setAccountId }) {
             onChange={handleChange}
             value={keys.sessionToken}
             multiline
+            required
             maxRows={5}
             fullWidth
           />
 
           <br />
 
-          <Button id='credentials-submit-button' variant='filled' type='submit'>
+          <Button
+            id='credentials-submit-button'
+            variant='outlined'
+            type='submit'
+            style={{
+              color: 'black',
+              borderColor: 'black',
+            }}
+          >
             Submit credentials
           </Button>
         </form>
