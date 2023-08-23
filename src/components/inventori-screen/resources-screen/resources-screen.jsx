@@ -139,6 +139,14 @@ function ResourcesScreen({ region }) {
     fetchResources();
   }, [region]);
 
+  const getCloudfrontName = distribution => {
+    let disitributionName = distribution.Id;
+    if (distribution.AliasICPRecordals.length > 0) {
+      disitributionName = distribution.AliasICPRecordals[0].CNAME;
+    }
+    return disitributionName;
+  };
+
   return (
     <>
       {isLoading ? (
@@ -167,7 +175,7 @@ function ResourcesScreen({ region }) {
                 return (
                   <ResourceComponent
                     key={distribution.ID}
-                    resourceType={distribution.AliasICPRecordals[0].CNAME}
+                    resourceType={getCloudfrontName(distribution)}
                     imageName='cloudfrontDistributionLogo'
                   />
                 );
