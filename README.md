@@ -3,8 +3,9 @@
 Inventori is a small application that makes your current AWS infrastructure visible by making
 API requests via the Javascript SDK of AWS. In many organizations development teams have a good overview 
 of the newer parts of the infrastructure, but it becomes blurry when all the infrastructure needs to be visualized.
-And who are we kidding, documenting not the best part of the job, but our future selfs or replacements will be ever gratefull.
-Inventori tries to solve this for a few of the many components of the AWS infrastructure. 
+And who are we kidding, documenting is not the best part of the job.
+Inventori tries to solve this for a few of the many components of the AWS infrastructure as is.
+By dynamically visualizing your infrastructure, you always have the real world visualization and not a months, weeks, days or even hour old overview.
 
 ## Capabilities
 - [x] List VPCs
