@@ -25,21 +25,13 @@ Inventori consists of a frontend and backend.
 The backend is responsible for making the API calls towards AWS, 
 and the frontend handles the visualization of the components in relationship to eachother.
 
-### Frontend
+1. `npm run backend` will start the nodemon express backend server.
+2. `npm run start` will start the React development server.
+3. Create your short lived credentials with the aws sts command presented on the credentials screen.
+4. Done! the app will start frtching the results and within 5-20 seconds you should have an overview of a single account for default region `eu-west-1`.
 
-`npm run start` will start the React development server
-
-### Backend
-
-`npm run backend` will start the nodemon express server
-
-## How to use the application
-
-You will need to assume the SecurityAuditRole or another IAM role with the same read permissions to successfully list 
+You will need to assume a read only role within you AWS account like the SecurityAuditRole to list 
 all the resources within the AWS accounts.
-
-Create an IAM role that will have the least privilege policies that are needed and perform the sts command to 
-generate your short lived credentials (Access Key, Secret Access Key, Session Token).
 
 ## Roadmap
 
