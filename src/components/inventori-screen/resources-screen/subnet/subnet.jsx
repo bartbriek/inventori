@@ -83,6 +83,7 @@ function Subnet({
               />
             );
           }
+          return null;
         })}
       </div>
       <div className='ecs-container'>
@@ -115,6 +116,7 @@ function Subnet({
               />
             );
           }
+          return null;
         })}
       </div>
     </div>

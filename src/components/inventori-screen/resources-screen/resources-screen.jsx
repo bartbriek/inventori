@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../../../baseConfig';
 import Vpc from './vpc/vpc';
 import ResourceComponent from './resource-component/resource-component';
-import { Box, Button, LinearProgress, Modal, Typography } from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 
 function ResourcesScreen({ region }) {
   const [progress, setProgress] = useState(0);

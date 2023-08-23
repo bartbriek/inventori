@@ -2,10 +2,9 @@ import './header.css';
 import React from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../baseConfig';
-import { MenuItem, InputLabel, Button, Menu, Typography } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
+import { MenuItem, Button, Menu, Typography } from '@mui/material';
 
-const Header = ({ accountId, region, setAccountId, setSelectedRegion }) => {
+const Header = ({ accountId, setAccountId, setSelectedRegion }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 

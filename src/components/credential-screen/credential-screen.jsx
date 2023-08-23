@@ -118,7 +118,7 @@ function CredentialScreen({ setAccountId }) {
 
           <TextField
             id='input-session-token'
-            placeholder='Session Token'
+            placeholder='Session Token*'
             variant='standard'
             onChange={handleChange}
             value={keys.sessionToken}

@@ -14,7 +14,6 @@ function AvailabilityZone({
 }) {
   const [publicSubnets, setPublicSubnets] = useState([]);
   const [privateSubnets, setPrivateSubnets] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const assignSubnets = subnets => {
     const tempPublicSubnets = [];
@@ -53,7 +52,6 @@ function AvailabilityZone({
       }
       setPrivateSubnets(tempPrivateSubnets);
       setPublicSubnets(tempPublicSubnets);
-      setIsLoading(false);
     });
   };
 
@@ -71,45 +69,41 @@ function AvailabilityZone({
 
   return (
     <>
-      {isLoading ? (
-        <h1>Gathering resources</h1>
-      ) : (
-        <div className='availability-zone'>
-          <strong>AZ {zone}</strong>
-          <div className='subnets-container'>
-            <div className='public-subnets-container'>
-              {publicSubnets.map(subnet => {
-                return (
-                  <Subnet
-                    key={subnet.subnetId}
-                    subnet={subnet}
-                    subnetType='public-subnet'
-                    natGateways={natGateways}
-                    ec2Instances={ec2Instances}
-                    ecsInstances={ecsInstances}
-                    rdsInstances={rdsInstances}
-                  />
-                );
-              })}
-            </div>
-            <div className='private-subnets-container'>
-              {privateSubnets.map(subnet => {
-                return (
-                  <Subnet
-                    key={subnet.subnetId}
-                    subnet={subnet}
-                    subnetType='private-subnet'
-                    natGateways={natGateways}
-                    ec2Instances={ec2Instances}
-                    ecsInstances={ecsInstances}
-                    rdsInstances={rdsInstances}
-                  />
-                );
-              })}
-            </div>
+      <div className='availability-zone'>
+        <strong>AZ {zone}</strong>
+        <div className='subnets-container'>
+          <div className='public-subnets-container'>
+            {publicSubnets.map(subnet => {
+              return (
+                <Subnet
+                  key={subnet.subnetId}
+                  subnet={subnet}
+                  subnetType='public-subnet'
+                  natGateways={natGateways}
+                  ec2Instances={ec2Instances}
+                  ecsInstances={ecsInstances}
+                  rdsInstances={rdsInstances}
+                />
+              );
+            })}
+          </div>
+          <div className='private-subnets-container'>
+            {privateSubnets.map(subnet => {
+              return (
+                <Subnet
+                  key={subnet.subnetId}
+                  subnet={subnet}
+                  subnetType='private-subnet'
+                  natGateways={natGateways}
+                  ec2Instances={ec2Instances}
+                  ecsInstances={ecsInstances}
+                  rdsInstances={rdsInstances}
+                />
+              );
+            })}
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

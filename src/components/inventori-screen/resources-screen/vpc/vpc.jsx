@@ -1,5 +1,5 @@
 import './vpc.css';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AvailabilityZone from '../availability-zone/availability-zone';
 import Resource from '../resource-component/resource-component';
 function Vpc({

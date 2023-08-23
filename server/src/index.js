@@ -6,9 +6,7 @@ import AWS from 'aws-sdk';
 
 import { validateSession } from './session.js';
 import { getCurrentAccountId } from './sts.js';
-import { fetchAwsResources } from './resources.js';
 import { createGetResponse, successMessages } from './common/success.js';
-import { determineCorrelations } from './correlations.js';
 import fetchVpcs from './aws-resources/vpcs.js';
 import fetchS3Buckets from './aws-resources/s3.js';
 import fetchSubnets from './aws-resources/subnets.js';
@@ -115,16 +113,6 @@ app.put('/region/:regionId', (req, res) => {
 });
 
 // Resources endpoints
-app.get('/resources', async (req, res) => {
-  // fetch resources
-  const resources = await fetchAwsResources(awsRegion);
-
-  // Make the connections
-  const responseBody = determineCorrelations(resources);
-  res.status(200);
-  res.send(createGetResponse(responseBody));
-});
-
 // IAM ENDPOINTS
 app.get('/resources/iam-users', async (req, res) => {
   const users = await fetchIamUsers(awsRegion);
