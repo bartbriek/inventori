@@ -21,6 +21,9 @@ By dynamically visualizing your infrastructure, you always have the real world v
 - [x] List S3 buckets
 - [x] List Lambda functions
 - [x] List Cloudfront distributions
+- [x] List Api Gateways (Legacy and V2)
+- [x] List SNS topics
+- [x] List SQS queues
 
 ## How to run
 

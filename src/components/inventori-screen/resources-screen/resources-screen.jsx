@@ -16,6 +16,9 @@ function ResourcesScreen({ region }) {
   const [routeTables, setRouteTables] = useState([]);
   const [internetGateways, setInternetGateways] = useState([]);
   const [natGateways, setNatGateways] = useState([]);
+  const [apiGateways, setApiGateways] = useState([]);
+  const [snsTopics, setSnsTopics] = useState([]);
+  const [sqsQueues, setSqsQueues] = useState([]);
   const [cloudfrontDistributions, setCloudfrontDistributions] = useState([]);
   const [ec2Instances, setEc2Instances] = useState([]);
   const [ecsInstances, setEcsInstances] = useState([]);
@@ -26,7 +29,7 @@ function ResourcesScreen({ region }) {
 
   // amount of request we are doing to calculate the progress loader for resources screen.
   let progressVariable = 0;
-  const resourcesRequestCount = 14;
+  const resourcesRequestCount = 17;
   const resourceRequestPercentage = 100 / resourcesRequestCount;
 
   useEffect(() => {
@@ -65,6 +68,26 @@ function ResourcesScreen({ region }) {
           progressVariable = progressVariable + resourceRequestPercentage;
           setProgress(progressVariable);
         });
+
+      await axios
+        .get(`${BASE_URL}/resources/api-gateways`)
+        .then(apiGatewayResponse => {
+          setApiGateways(apiGatewayResponse.data.body);
+          progressVariable = progressVariable + resourceRequestPercentage;
+          setProgress(progressVariable);
+        });
+
+      await axios.get(`${BASE_URL}/resources/sns`).then(snsResponse => {
+        setSnsTopics(snsResponse.data.body);
+        progressVariable = progressVariable + resourceRequestPercentage;
+        setProgress(progressVariable);
+      });
+
+      await axios.get(`${BASE_URL}/resources/sqs`).then(sqsResponse => {
+        setSqsQueues(sqsResponse.data.body);
+        progressVariable = progressVariable + resourceRequestPercentage;
+        setProgress(progressVariable);
+      });
 
       await axios
         .get(`${BASE_URL}/resources/cloudfront`)
@@ -170,7 +193,7 @@ function ResourcesScreen({ region }) {
             </Typography>
             <div className='iam-users-container'></div>
             <div className='iam-roles-container'></div>
-            <div className='cloudfront-container'>
+            <div className='resources-container'>
               {cloudfrontDistributions.map(distribution => {
                 return (
                   <ResourceComponent
@@ -181,7 +204,7 @@ function ResourcesScreen({ region }) {
                 );
               })}
             </div>
-            <div className='s3Bucket-container'>
+            <div className='resources-container'>
               {s3Buckets.map(bucket => {
                 return (
                   <ResourceComponent
@@ -201,7 +224,40 @@ function ResourcesScreen({ region }) {
               >
                 {region}
               </Typography>
-              <div className='lambdaFunctions-container'>
+              <div className='resources-container'>
+                {apiGateways.map(gateway => {
+                  return (
+                    <ResourceComponent
+                      key={gateway.id}
+                      resourceType={gateway.name}
+                      imageName='apiGatewayLogo'
+                    />
+                  );
+                })}
+              </div>
+              <div className='resources-container'>
+                {snsTopics.map(topic => {
+                  return (
+                    <ResourceComponent
+                      key={topic.TopicArn}
+                      resourceType={topic.TopicArn}
+                      imageName='snsTopicLogo'
+                    />
+                  );
+                })}
+              </div>
+              <div className='resources-container'>
+                {sqsQueues.map(queue => {
+                  return (
+                    <ResourceComponent
+                      key={queue.QueueUrl}
+                      resourceType={queue.QueueUrl}
+                      imageName='sqsQueueLogo'
+                    />
+                  );
+                })}
+              </div>
+              <div className='resources-container'>
                 {lambdaFunctions.map(lambdaFunction => {
                   return (
                     <ResourceComponent
@@ -212,7 +268,7 @@ function ResourcesScreen({ region }) {
                   );
                 })}
               </div>
-              <div className='dynamodb-container'>
+              <div className='resources-container'>
                 {dynamoDbTables.map(table => {
                   return (
                     <ResourceComponent

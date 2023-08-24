@@ -21,6 +21,9 @@ import fetchNatGateways from './aws-resources/nat-gateways.js';
 import fetchIamUsers from './aws-resources/iam-users.js';
 import fetchIamRoles from './aws-resources/iam-roles.js';
 import fetchCloudfrontDistributions from './aws-resources/cloudfront.js';
+import fetchSqsQueues from './aws-resources/sqs.js';
+import fetchSnsTopics from './aws-resources/sns.js';
+import fetchApiGateways from './aws-resources/api-gateway.js';
 
 // CONSTANTS
 const app = express();
@@ -35,7 +38,7 @@ let credentials = new AWS.Credentials({
 
 // AWS SDK
 AWS.config.logger = console;
-let awsRegion = 'eu-west-1';
+let awsRegion = 'eu-central-1';
 
 // CORS
 let corsOptions = {
@@ -176,10 +179,28 @@ app.get('/resources/nat-gateways', async (req, res) => {
   res.send(createGetResponse(natGateways));
 });
 
+app.get('/resources/api-gateways', async (req, res) => {
+  const apiGatewaysResponse = await fetchApiGateways(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(apiGatewaysResponse));
+});
+
 app.get('/resources/cloudfront', async (req, res) => {
   const cloudfrontDistributions = await fetchCloudfrontDistributions(awsRegion);
   res.status(200);
   res.send(createGetResponse(cloudfrontDistributions));
+});
+
+app.get('/resources/sns', async (req, res) => {
+  const snsResponse = await fetchSnsTopics(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(snsResponse));
+});
+
+app.get('/resources/sqs', async (req, res) => {
+  const sqsResponse = await fetchSqsQueues(awsRegion);
+  res.status(200);
+  res.send(createGetResponse(sqsResponse));
 });
 
 // Compute related endpoints
