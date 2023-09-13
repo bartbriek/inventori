@@ -33,10 +33,10 @@ and the frontend handles the visualization of the components in relationship to 
 
 1. `npm run backend` will start the nodemon express backend server.
 2. `npm run start` will start the React development server.
-3. Create your short lived credentials with the aws sts command presented on the credentials screen.
+3. Create your short-lived credentials with the aws sts command presented on the credentials screen.
 4. Done! The app will start fetching the results and within 5-20 seconds you should have an overview of a single account for default region `eu-west-1`.
 
-You will need to assume a read only role within you AWS account like the SecurityAuditRole to list
+You will need to assume a read only role within your AWS account like the SecurityAuditRole to list
 all the resources within the AWS accounts.
 
 ## Roadmap
