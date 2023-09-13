@@ -37,7 +37,7 @@ and the frontend handles the visualization of the components in relationship to 
 4. Done! The app will start fetching the results and within 5-20 seconds you should have an overview of a single account for default region `eu-west-1`.
 
 You will need to assume a read only role within your AWS account like the SecurityAuditRole to list
-all the resources within the AWS accounts.
+all the resources within the AWS accounts. 
 
 ## Roadmap
 
